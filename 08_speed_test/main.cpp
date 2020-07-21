@@ -1,3 +1,15 @@
+// =================================================================
+//
+// File: main.cpp
+// Author: Pedro Perez
+// Description: This file contains the code to perform speed tests 
+//				on the various sorting algorithms that we have seen.
+//
+// Copyright (c) 2020 by Tecnologico de Monterrey.  
+// All Rights Reserved. May be reproduced for any non-commercial 
+// purpose.
+// =================================================================
+
 #include "header.h"
 #include "bubble.h"
 #include "selection.h"
