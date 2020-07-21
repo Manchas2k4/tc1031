@@ -1,16 +1,20 @@
-﻿#include <gtest/gtest.h>
-#include "insertion.cpp"
+﻿// =================================================================
+//
+// File: run_test.cpp 
+// Author: Pedro Perez
+// Description: This file implements various tests on the 
+//				implemented code.
+//
+// Copyright (c) 2020 by Tecnologico de Monterrey.  
+// All Rights Reserved. May be reproduced for any non-commercial 
+// purpose.
+// =================================================================
 
-unsigned grade = 0;
+#include <gtest/gtest.h>
+#include "insertion.h"
+
 int output[] = {1, 2, 16, 24, 29, 30, 42, 45, 49, 56, 63, 76, 77, 82, 89, 92, 93, 93, 94, 94};
 
-/*
-void retro(const char* text, int cal) {
-	grade += (::testing::Test::HasFailure())? 0 : cal;
-	std::cout << text << " grade : " << grade << "\n";
-}
-*/
- 
 TEST(InsetionSortTest, WorstScenario)  { 
 	int input[] = {94, 94, 93, 93, 92, 89, 82, 77, 76, 63, 56, 49, 45, 42, 30, 29, 24, 16, 2, 1};
 	

@@ -1,2 +1,2 @@
-# Programación de estructuras de datos y algoritmos fundamentales (TC1031)
-Test
+# Programming of fundamental data structures and algorithms (TC1031)
+This subject consists of five parts or modules that will allow you to learn and master both important or fundamental algorithms and data structure. The combination of algorithms and data structure is a dumbbell that cannot be dissociated. Nikalaus Wirth published a book in 1976 that the date is a reference: Algorithms + Data Structures = Programs. This classic book on computing shows that algorithms and data structures are closely related, so for example, if you have an ordered array, you will use an optimal search algorithm for ordered arrays.
