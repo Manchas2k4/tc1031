@@ -17,6 +17,14 @@
 
 using namespace std;
 
+// =================================================================
+// Find the pivot to be used for separation
+// 
+// @param A, the destination array.
+// @param low, lower index.
+// @param high, higher index.
+// @return the pivot number, otherwise it returns -1.
+// =================================================================
 template <class T>
 int find_pivot(T *A, int low, int high) {
 	int i;
@@ -31,6 +39,17 @@ int find_pivot(T *A, int low, int high) {
 	return -1;
 }
 
+// =================================================================
+// Separate the elements. On the left side of the range [low, high] 
+// places the elements that are less than the pivot; on the right 
+// side, the elements that are greater than or equal to the pivot.
+// 
+// @param A, the destination array.
+// @param low, lower index.
+// @param high, higher index.
+// @return the point where elements greater than or equal to the 
+//		   pivot begin.
+// =================================================================
 template <class T>
 int make_partition(T *A, int low, int high, int pivot) {
 	int i, j;
@@ -49,6 +68,13 @@ int make_partition(T *A, int low, int high, int pivot) {
 	return i;
 }
 
+// =================================================================
+// If there is a pivot, it separates the elements.
+// 
+// @param A, the destination array.
+// @param low, lower index.
+// @param high, higher index.
+// =================================================================
 template <class T>
 void quick(T *A, int low, int high) {
 	int pivot, pos;
@@ -61,9 +87,15 @@ void quick(T *A, int low, int high) {
 	}
 }
 
+// =================================================================
+// Performs the quick sort algorithm.
+// 
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
 template <class T>
 void quickSort(T *A, int size) {
 	quick(A, 0, size - 1);
 }
 
-#endif
+#endif /* QUICKSORT_H */

@@ -17,6 +17,12 @@
 
 using namespace std;
 
+// =================================================================
+// Performs the selection sort algorithm.
+// 
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
 template <class T>
 void selectionSort(T *arr, int size) {
 	int pos;
@@ -35,4 +41,4 @@ void selectionSort(T *arr, int size) {
     }
 }
 
-#endif
+#endif /* SELECTION_H */

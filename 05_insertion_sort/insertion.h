@@ -17,6 +17,12 @@
 
 using namespace std;
 
+// =================================================================
+// Performs the insertion sort algorithm.
+// 
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
 template <class T>
 void insertionSort(T *arr, int size) {
 	for(int i = 1; i < size; i++){
@@ -26,4 +32,4 @@ void insertionSort(T *arr, int size) {
 	}
 }
 
-#endif
+#endif /* INSERTION_H */

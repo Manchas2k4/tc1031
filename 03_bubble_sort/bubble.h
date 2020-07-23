@@ -17,6 +17,12 @@
 
 using namespace std;
 
+// =================================================================
+// Performs the bubble sort algorithm.
+// 
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
 template <class T>
 void bubbleSort(T *arr, int size) {
 	for(int i = size - 1; i > 0; i--){
@@ -28,4 +34,4 @@ void bubbleSort(T *arr, int size) {
 	}
 }
 
-#endif
+#endif /* BUBBLE_H */

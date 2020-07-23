@@ -9,6 +9,8 @@
 // All Rights Reserved. May be reproduced for any non-commercial 
 // purpose.
 // =================================================================
+#ifndef SEARCH_H
+#define SEARCH_H
 
 #include <iostream>
 #include <vector>
@@ -16,6 +18,15 @@
 
 using namespace std;
 
+// =================================================================
+// Performs a sequential search for an element within an array.
+// 
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// @param key, the search element. 
+// @return the index of the searched element, -1 in case the element
+//		   is not found in the array.
+// =================================================================
 template <class T>
 int sequentialSearch(T *A, int size, T key) {
 	for (int i = 0; i < size; i++) {
@@ -26,6 +37,15 @@ int sequentialSearch(T *A, int size, T key) {
 	return -1;
 }
 
+// =================================================================
+// Performs a binary search for an element within an array.
+// 
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// @param key, the search element. 
+// @return the index of the searched element, -1 in case the element
+//		   is not found in the array.
+// =================================================================
 template <class T>
 int binarySearch(T *A, int size, T key) {
 	int low, high, mid;
@@ -44,3 +64,5 @@ int binarySearch(T *A, int size, T key) {
 	}
 	return -1;
 }
+
+#endif /* SEARCH_H */

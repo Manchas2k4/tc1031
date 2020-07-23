@@ -27,6 +27,10 @@
 
 using namespace std;
 
+// =================================================================
+// This class allows us to calculate the time that elapses between 
+// one execution line and another.
+// =================================================================
 class Chronometer {
 private:
     timeval startTime;
@@ -58,13 +62,27 @@ public:
     }
 };
 
+// =================================================================
+// Swap the content of two localities (i, j) in array A.
+//
+// @param A, an array of T elements.
+// @param i, an index in the array.
+// @param j, an index in the array.
+// =================================================================
 template <class T>
-void swap(T *array, int i, int j) {
-	T aux = array[i];
-	array[i] = array[j];
-	array[j] = aux;
+void swap(T *A, int i, int j) {
+	T aux = A[i];
+	A[i] = A[j];
+	A[j] = aux;
 }
 
+// =================================================================
+// Swap the content of two localities (i, j) in vector v.
+//
+// @param v, a vector of T elements.
+// @param i, an index in the vector.
+// @param j, an index in the vector.
+// =================================================================
 template <class T>
 void swap(vector<T> &v, int i, int j) {
 	T aux = v[i];
@@ -72,18 +90,30 @@ void swap(vector<T> &v, int i, int j) {
 	v[j] = aux;
 }
 
+// =================================================================
+// Converts the content of an array to a string.
+//
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
 template <class T>
-string arr2str(T *array, int size) {
+string arr2str(T *A, int size) {
 	stringstream aux;
 	
-	aux << "[" << array[0];
+	aux << "[" << A[0];
 	for (int i = 1; i < size; i++) {
-		aux << ", " << array[i];
+		aux << ", " << A[i];
 	}
 	aux << "]";
 	return aux.str();
 }
 
+// =================================================================
+// Converts the content of a vector to a string.
+//
+// @param v, a vector of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
 template <class T>
 string vec2str(const std::vector<T> &v) {
 	stringstream aux;

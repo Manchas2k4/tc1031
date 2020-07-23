@@ -18,12 +18,29 @@
 
 using namespace std;
 
+// =================================================================
+// Copy the range [low, high] from array B to array A.
+// 
+// @param A, the destination array.
+// @param B, the source array.
+// @param low, lower index.
+// @param high, higher index.
+// =================================================================
 template <class T>
 void copyArray(T *A, T *B, int low, int high) {
 	int size = high - low + 1;
 	memcpy(A + low, B + low, sizeof(T) * size);
 }
 
+// =================================================================
+// Merge both halves of A, using B array as temporary storage.
+// 
+// @param A, the source array.
+// @param B, the destination array.
+// @param low, lower index.
+// @param mid, middle index.
+// @param high, higher index.
+// =================================================================
 template <class T>
 void merge(T *A, T *B, int low, int mid, int high) {
     int i, j, k;
@@ -49,6 +66,17 @@ void merge(T *A, T *B, int low, int mid, int high) {
     }
 }
 
+// =================================================================
+// If the minimum unit has not been reached (a single array 
+// position), separate the range [low, high] into two halves, 
+// invoking the split process again. When no more separations can be 
+// made, mix both halves of the arrangement.
+// 
+// @param A, the source array.
+// @param B, the temporal array.
+// @param low, lower index.
+// @param high, higher index.
+// =================================================================
 template<class T>
 void split(T *A, T *B, int low, int high) {
     int  mid, size, i, j;
@@ -62,6 +90,12 @@ void split(T *A, T *B, int low, int high) {
     copyArray(A, B, low, high);
 }
 
+// =================================================================
+// Performs the merge sort algorithm.
+// 
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
 template <class T>
 void mergeSort(T *A, int size) {
 	T *B = new T[size];
@@ -69,4 +103,4 @@ void mergeSort(T *A, int size) {
 	delete [] B;
 }
 
-#endif
+#endif /* MERGE_H */
