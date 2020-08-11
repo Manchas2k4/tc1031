@@ -74,7 +74,7 @@ Vector<T>::Vector(unsigned int numberOfElements, T initialValue) {
         throw OutOfMemory();
     }
 	
-	for (int i = 0; i < size; i++) {
+	for (unsigned int i = 0; i < size; i++) {
 		data[i] = initialValue;
 	}
 }
@@ -127,23 +127,27 @@ unsigned int Vector<T>::length() const {
 template <class T>
 unsigned int Vector<T>::resize(unsigned int newSize) {
 	if (newSize == 0){
-        throw RangeError();
+		throw RangeError();
+	}
+	
+	if (size == newSize) {
+		return size;
 	}
 
-    T *newData = new T[newSize];
-    if(newData == 0){
-        throw OutOfMemory();
-    }
+	T *newData = new T[newSize];
+	if(newData == 0){
+		throw OutOfMemory();
+	}
 
-    if(newSize <= size){
-        for(unsigned int i = 0; i < newSize; i++){
-            newData[i] = data[i];
-        }
-    } else{
-        for(unsigned int i = 0; i < size; i++){
-            newData[i] = data[i];
-        }
-    }
+	if(newSize < size){
+		for(unsigned int i = 0; i < newSize; i++) {
+			newData[i] = data[i];
+		}
+	} else{
+		for(unsigned int i = 0; i < size; i++) {
+			newData[i] = data[i];
+		}
+	}
 
 	delete [] data;
 	data = newData;
