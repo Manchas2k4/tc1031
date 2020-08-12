@@ -27,6 +27,10 @@
 
 using namespace std;
 
+typedef long long int lli;
+typedef unsigned long int uli;
+typedef unsigned int ui;
+
 // =================================================================
 // This class allows us to calculate the time that elapses between 
 // one execution line and another.
