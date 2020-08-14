@@ -16,6 +16,34 @@
 
 #include "header.h"
 
+long long int iterativeFactorial(unsigned int number) {
+	long long int acum = 1;
+	for (unsigned int i = 1; i <= number; i++) {
+		acum *= i;
+	}
+	return acum;
+}
+
+long long int recursiveFactorial(unsigned int number) {
+	if (number == 0) {
+		return 1;
+	} else {
+		return number * recursiveFactorial(number - 1);
+	}
+}
+
 int main(int argc, char* argv[]) {
+	Chronometer crono;
+	double ms;
+	
+	crono.start();
+	cout << "iterative factorial(20): " << iterativeFactorial(20) << "\n";
+	ms = crono.stop();
+	cout << "time: " << ms << " ms\n";
+	
+	crono.start();
+	cout << "recursive factorial(20): " << recursiveFactorial(20) << "\n";
+	ms = crono.stop();
+	cout << "time: " << ms << " ms\n";
 	return 0;
 }
