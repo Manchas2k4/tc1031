@@ -1,14 +1,14 @@
 // =================================================================
 //
-// File: header.h 
+// File: header.h
 // Author: Pedro Perez
 // Description: This file contains the interface and implementation
-//				of the Chronometer class, as well as the 
+//				of the Chronometer class, as well as the
 //				implementation of some support functions. This class
 //				is used to record the execution time of a program.
 //
-// Copyright (c) 2020 by Tecnologico de Monterrey.  
-// All Rights Reserved. May be reproduced for any non-commercial 
+// Copyright (c) 2020 by Tecnologico de Monterrey.
+// All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
 // =================================================================
 
@@ -20,6 +20,7 @@
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <string>
@@ -28,7 +29,7 @@
 using namespace std;
 
 // =================================================================
-// This class allows us to calculate the time that elapses between 
+// This class allows us to calculate the time that elapses between
 // one execution line and another.
 // =================================================================
 class Chronometer {
@@ -99,7 +100,7 @@ void swap(vector<T> &v, int i, int j) {
 template <class T>
 string arr2str(T *A, int size) {
 	stringstream aux;
-	
+
 	aux << "[" << A[0];
 	for (int i = 1; i < size; i++) {
 		aux << ", " << A[i];
