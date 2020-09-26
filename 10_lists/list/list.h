@@ -41,7 +41,7 @@ private:
 // @param val, stored value in the node.
 // =================================================================
 template <class T>
-Node<T>::Node(T val) : value(val), next(0) {
+Node<T>::Node(T val) : value(val), next(NULL) {
 }
 
 // =================================================================
@@ -110,7 +110,7 @@ List<T>::~List() {
 // =================================================================
 template <class T>
 bool List<T>::empty() const {
-	return (head == 0);
+	return (head == NULL);
 }
 
 // =================================================================
@@ -325,7 +325,7 @@ T List<T>::pop_back() {
 		return pop_front();
 	}
 
-	q = 0;
+	q = NULL;
 	p = head;
 	while (p->next != NULL) {
 		q = p;
