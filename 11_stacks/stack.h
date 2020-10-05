@@ -1,3 +1,16 @@
+// =================================================================
+//
+// File: stack.h
+// Author:
+// Description: This file contains the implementation of a TDA Stack
+// implementation, using both arrays (StackVector) and lists
+// (StackList).
+//
+// Copyright (c) 2020 by Tecnologico de Monterrey.
+// All Rights Reserved. May be reproduced for any non-commercial
+// purpose.
+// =================================================================
+
 #ifndef STACK_H
 #define STACK_H
 
@@ -11,6 +24,9 @@ using namespace std;
 
 typedef unsigned int uint;
 
+// =================================================================
+// Definition of the Stack interface.
+// =================================================================
 template <class T>
 class Stack {
 public:
@@ -22,6 +38,9 @@ public:
     virtual string toString() const = 0;
 };
 
+// =================================================================
+// Definition of the StackVector class
+// =================================================================
 template <class T>
 class StackVector : public Stack<T> {
 private:
@@ -39,6 +58,12 @@ public:
   string toString() const;
 };
 
+// =================================================================
+// Constructor. Initializes the instance variables and creates the
+// dynamic array.
+//
+// @param s, stack size
+// =================================================================
 template <class T>
 StackVector<T>::StackVector(uint s) {
   size = s;
@@ -46,6 +71,10 @@ StackVector<T>::StackVector(uint s) {
   next = 0;
 }
 
+
+// =================================================================
+// Destructor.
+// =================================================================
 template <class T>
 StackVector<T>::~StackVector() {
   delete [] data;
@@ -54,6 +83,12 @@ StackVector<T>::~StackVector() {
   next = 0;
 }
 
+
+// =================================================================
+// Add an item to the stack.
+//
+// @param val, the value to be put in the position indicated by next
+// =================================================================
 template <class T>
 void StackVector<T>::push(T val) {
   if (next >= size) {
@@ -63,6 +98,12 @@ void StackVector<T>::push(T val) {
   data[next++] = val;
 }
 
+// =================================================================
+// Returns the item at the top of the stack.
+//
+// @return the item at the position indicated by next
+// @throw NoSuchElement, when the stack is empty
+// =================================================================
 template <class T>
 T StackVector<T>::top() const {
   if (empty()) {
@@ -71,6 +112,11 @@ T StackVector<T>::top() const {
   return data[next - 1];
 }
 
+// =================================================================
+// Removes the item at the top of the stack.
+//
+// @throw NoSuchElement, when the stack is empty
+// =================================================================
 template <class T>
 void StackVector<T>::pop() {
   if (empty()) {
@@ -79,16 +125,29 @@ void StackVector<T>::pop() {
   next--;
 }
 
+// =================================================================
+// Returns whether the stack is empty or not.
+//
+// @return true if next is equal to zero, false otherwise.
+// =================================================================
 template <class T>
 bool StackVector<T>::empty() const {
   return (next == 0);
 }
 
+// =================================================================
+// Removes all items from the stack.
+// =================================================================
 template <class T>
 void StackVector<T>::clear() {
   next = 0;
 }
 
+// =================================================================
+// Returns the string representation of the elements on the stack.
+//
+// @return an string with the representation of the stack.
+// =================================================================
 template <class T>
 string StackVector<T>::toString() const {
   stringstream aux;
@@ -104,6 +163,9 @@ string StackVector<T>::toString() const {
   return aux.str();
 }
 
+// =================================================================
+// Definition of the StackList class
+// =================================================================
 template <class T>
 class StackList : public Stack<T> {
 private:
@@ -118,11 +180,22 @@ public:
   string toString() const;
 };
 
+// =================================================================
+// Add an item to the stack.
+//
+// @param val, the value to be put on the stack
+// =================================================================
 template <class T>
 void StackList<T>::push(T val) {
   data.push_front(val);
 }
 
+// =================================================================
+// Returns the item at the top of the stack.
+//
+// @return the item at the front of the list.
+// @throw NoSuchElement, when the stack is empty
+// =================================================================
 template <class T>
 T StackList<T>::top() const {
   if (data.empty()) {
@@ -131,6 +204,11 @@ T StackList<T>::top() const {
   return data.front();
 }
 
+// =================================================================
+// Removes the item at the top of the stack.
+//
+// @throw NoSuchElement, when the stack is empty
+// =================================================================
 template <class T>
 void StackList<T>::pop() {
   if (data.empty()) {
@@ -139,16 +217,29 @@ void StackList<T>::pop() {
   data.pop_front();
 }
 
+// =================================================================
+// Returns whether the stack is empty or not.
+//
+// @return true if the list is empty
+// =================================================================
 template <class T>
 bool StackList<T>::empty() const {
   return (data.empty());
 }
 
+// =================================================================
+// Removes all items from the stack.
+// =================================================================
 template <class T>
 void StackList<T>::clear() {
   data.clear();
 }
 
+// =================================================================
+// Returns the string representation of the elements on the stack.
+//
+// @return an string with the representation of the stack.
+// =================================================================
 template <class T>
 string StackList<T>::toString() const {
   stringstream aux;
