@@ -2,7 +2,8 @@
 //
 // File: DoubleLinkedList.h
 // Author:
-// Description: This file contains the implementation of a TDA DoubleLinkedList
+// Description: This file contains the implementation of a TDA
+// DoubleLinkedList
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
 // All Rights Reserved. May be reproduced for any non-commercial
