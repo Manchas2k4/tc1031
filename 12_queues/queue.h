@@ -55,8 +55,8 @@ public:
   void dequeue();
   bool empty() const;
   void clear();
-  bool full() const;
   string toString() const;
+  bool full() const;
 };
 
 // =================================================================
