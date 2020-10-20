@@ -13,7 +13,16 @@ int main(int argc, char* argv[]) {
     heap.add(numbers[i]);
     cout << heap.toString() << "\n";
   }
+  cout << heap.remove() << "\n";
+  cout << heap.toString() << "\n\n";
+
+  cout << heap.remove() << "\n";
+  cout << heap.toString() << "\n\n";
+
+  cout << heap.remove() << "\n";
+  cout << heap.toString() << "\n\n";
   */
+
   cout << "before: " << arr2str(numbers, 12) << "\n";
   heapSort(numbers, 12);
   cout << "after: " << arr2str(numbers, 12) << "\n";

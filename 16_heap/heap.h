@@ -92,10 +92,10 @@ void Heap<T>::pushDown(uint pos) {
     uint ri = right(pos);
     uint min = pos;
 
-    if(le < count && data[le] < data[min]){
+    if (le < count && data[le] < data[min]){
         min = le;
     }
-    if(ri < count && data[ri] < data[min]){
+    if (ri < count && data[ri] < data[min]){
         min = ri;
     }
 
@@ -108,7 +108,7 @@ void Heap<T>::pushDown(uint pos) {
 template <class T>
 void Heap<T>::add(T val) {
     uint pos;
-    if(full()){
+    if (full()){
         throw Overflow();
     }
 
@@ -123,9 +123,9 @@ void Heap<T>::add(T val) {
 
 template <class T>
 T Heap<T>::remove() {
-    if(empty()){
-        throw NoSuchElement();
-    }
+	if (empty()){
+		throw NoSuchElement();
+	}
 
 	T aux = data[0];
 	data[0] = data[--count];

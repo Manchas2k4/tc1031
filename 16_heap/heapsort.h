@@ -33,18 +33,18 @@ template <class T>
 void heapify(T *arr, int size, int pos) {
 	uint le = left(pos);
 	uint ri = right(pos);
-	uint min = pos;
+	uint max = pos;
 
-	if(le < size && arr[le] > arr[min]){
-			min = le;
+	if(le < size && arr[le] > arr[max]){
+			max = le;
 	}
-	if(ri < size && arr[ri] > arr[min]){
-			min = ri;
+	if(ri < size && arr[ri] > arr[max]){
+			max = ri;
 	}
 
-	if(min != pos){
-			swap(arr, pos, min);
-			heapify(arr, size, min);
+	if(max != pos){
+			swap(arr, pos, max);
+			heapify(arr, size, max);
 	}
 }
 
