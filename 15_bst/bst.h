@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <algorithm>
 #include "exception.h"
 
 using namespace std;
@@ -31,7 +32,7 @@ private:
 	Node(T);
 	Node(T, Node<T>*, Node<T>*);
 
-	bool find(T);
+	bool find(T) const;
 	uint depth() const;
 
 	void add(T);
@@ -63,9 +64,9 @@ bool Node<T>::find(T val) {
 	if (val == value) {
 		return true;
 	} else if (val < value) {
-		return (left != 0 && left->find(val));
+		return (left != NULL && left->find(val));
 	} else {
-		return (right != 0 && right->find(val));
+		return (right != NULL && right->find(val));
 	}
 }
 
@@ -76,7 +77,7 @@ uint Node<T>::depth() const {
     int de = 0;
 
     if (left == NULL && right == NULL) {
-    	return 1;
+    	return 0;
     }
 
     if (left != NULL) {
@@ -86,10 +87,7 @@ uint Node<T>::depth() const {
     if (right != NULL) {
         ri = right->depth();
     }
-
-    de = (le > ri)? le : ri;
-
-	return (de + 1);
+		return (max(le, ri) + 1);
 }
 
 template <class T>
@@ -136,7 +134,7 @@ Node<T>* Node<T>::succesor() {
 		parent = left;
 		child = left->right;
 
-		while (child->right) {
+		while (child->right != NULL) {
 			parent = child;
 			child = child->right;
 		}
@@ -289,7 +287,7 @@ bool BST<T>::empty() const {
 
 template <class T>
 bool BST<T>::find(T val) const {
-	if (root != 0) {
+	if (!empty()) {
 		return root->find(val);
 	} else {
 		return false;
@@ -298,7 +296,7 @@ bool BST<T>::find(T val) const {
 
 template<class T>
 uint BST<T>::levels() const {
-	if (root != NULL) {
+	if (!empty()) {
 		return root->depth();
 	} else {
 		return -1;
@@ -307,7 +305,7 @@ uint BST<T>::levels() const {
 
 template<class T>
 void BST<T>::add(T val) {
-	if (root != NULL) {
+	if (!empty()) {
 		if (!root->find(val)) {
 			root->add(val);
 		}
@@ -318,7 +316,7 @@ void BST<T>::add(T val) {
 
 template <class T>
 void BST<T>::remove(T val) {
-	if (root != NULL) {
+	if (!empty()) {
 		if (val == root->value) {
 			Node<T> *succ = root->succesor();
 			if (succ != NULL) {
@@ -335,7 +333,7 @@ void BST<T>::remove(T val) {
 
 template <class T>
 void BST<T>::removeAll() {
-	if (root != NULL) {
+	if (!empty()) {
 		root->removeChilds();
 		delete root;
 		root = NULL;
@@ -347,7 +345,7 @@ string BST<T>::inOrder() const {
 	stringstream aux;
 
 	aux << "[";
-	if (root != NULL) {
+	if (!empty()) {
 		root->inOrder(aux);
 	}
 	aux << "]";
@@ -359,7 +357,7 @@ string BST<T>::preOrder() const {
 	stringstream aux;
 
 	aux << "[";
-	if (root != NULL) {
+	if (!empty()) {
 		root->preOrder(aux);
 	}
 	aux << "]";
@@ -371,10 +369,17 @@ string BST<T>::postOrder() const {
 	stringstream aux;
 
 	aux << "[";
-	if (root != NULL) {
+	if (!empty()) {
 		root->postOrder(aux);
 	}
 	aux << "]";
+	return aux.str();
+}
+
+template <class T>
+string BST<T>::byLevel() const {
+	stringstream aux;
+
 	return aux.str();
 }
 
