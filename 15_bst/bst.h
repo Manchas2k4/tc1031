@@ -1,9 +1,14 @@
-/*
- * bst.h
- *
- *  Created on: 30/10/2015
- *      Author: clase
- */
+// =================================================================
+//
+// File: bst.h
+// Author: Pedro Perez
+// Description: This file contains the implementation of TDA
+//							Binary Search Tree.
+//
+// Copyright (c) 2020 by Tecnologico de Monterrey.
+// All Rights Reserved. May be reproduced for any non-commercial
+// purpose.
+// =================================================================
 
 #ifndef BST_H
 #define BST_H
