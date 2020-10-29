@@ -17,7 +17,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <algorithm>
 
 using namespace std;
 
@@ -30,20 +29,9 @@ template <class T>
 class Node {
 private:
 	T value;
-	Node *left, *right;
+	Node *left, *right, *parent;
 
 	Node(T);
-	Node(T, Node<T>*, Node<T>*);
-
-	Node<T>* rightRotate();
-	Node<T>* leftRotate();
-	Node<T>* splay(T, bool&);
-
-	void add(T);
-
-	Node<T>* succesor();
-	void remove(T);
-	void removeChilds();
 
 	void inOrder(stringstream&) const;
 	void postOrder(stringstream&) const;
@@ -53,237 +41,38 @@ private:
 };
 
 template <class T>
-Node<T>::Node(T val) : value(val), left(NULL), right(NULL) {}
-
-template <class T>
-Node<T>::Node(T val, Node<T> *le, Node<T> *ri)
-	: value(val), left(le), right(ri) {}
-
-template <class T>
-Node<T>* Node<T>::rightRotate() {
-	Node<T> *y;
-
-	y = this->left;
-	this->left = y->right;
-	y->right = this;
-	return y;
-}
-
-template <class T>
-Node<T>* Node<T>::leftRotate() {
-	Node<T> *y;
-
-	y = this->right;
-	this->right = y->left;
-	y->left = this;
-	return y;
-}
-
-template <class T>
-Node<T>* Node<T>::splay(T val, bool& found) {
-	if (this->value == val) {
-		found = true;
-		return this;
-	} else // Key lies in left subtree
-	if (val < this->value) {
-	  // Key is not in tree, we are done
-	  if (this->left == NULL) {
-	    found = false;
-			return this;
-	  }
-		// Zig-Zig (Left Left)
-    if (val < this->left->value) {
-			if (this->left->left == NULL) {
-				found = false;
-			} else {
-	      // First recursively bring the key as this of left-left
-	      this->left->left = this->left->left->splay(val, found);
-			}
-			// Do first rotation for this, second rotation is done after else
-			this = this->rightRotate();
-    } else if (val > this->left->value) { // Zig-Zag (Left Right)
-			if (this->left->right == NULL) {
-				found = false;
-			} else {
-	      // First recursively bring the key as this of left-left
-	      this->left->right = this->left->right->splay(val, found);
-			}
-			// Do first rotation for this->left
-			if (this->left->right != NULL) {
-				this->left = this->leftRotate();
-			}
-		}
-		// Do second rotation for this
-		return (this->left == NULL)? this : this->rightRotate();
-	} else { // Key lies in right subtree
-		if (this->right == NULL) {
-	    found = false;
-			return this;
-	  }
-		// Zag-Zig (Right Left)
-		if (val < this->right->value) {
-			// Bring the key as root of right-left
-			if (this->right->left == NULL) {
-				found = false;
-			} else {
-	      // First recursively bring the key as this of left-left
-	      this->right->left = this->right->left->splay(val, found);
-			}
-			// Do first rotation for this->right
-			if (this->right->left != NULL) {
-				this->right = this->right->rightRotate();
-			}
-		} else if (val > this->right->value) {
-			// Bring the key as this of right-right and do first rotation
-			if (this->right->right == NULL) {
-				found = false;
-			} else {
-	      // First recursively bring the key as this of left-left
-	      this->right->right = this->right->right->splay(val, found);
-			}
-			this = this->leftRotate();
-		}
-		// Do second rotation for root
-		return (this->right == NULL)? this : this->leftRotate();
-	}
-}
-
-template <class T>
-void Node<T>::add(T val) {
-	if (val < this->value) {
-		if (this->left != NULL) {
-			this->left->add(val);
-		} else {
-			this->left = new Node<T>(val);
-		}
-	} else if (val > this->value) {
-		if (this->right != NULL) {
-			this->right->add(val);
-		} else {
-			this->right = new Node<T>(val);
-		}
-	}
-}
-
-template <class T>
-Node<T>* Node<T>::succesor() {
-	Node<T> *le, *ri;
-
-	le = this->left;
-	ri = this->right;
-
-	if (this->left == NULL && this->right == NULL) {
-		return NULL;
-	}
-
-	if (this->left == NULL && this->right != NULL) {
-		this->right = NULL;
-		return ri;
-	}
-
-	if (this->left != NULL && this->left->right == NULL) {
-			this->left = le->left;
-			le->left = NULL;
-			return le;
-	}
-
-	if (this->left != NULL && this->left->right != NULL) {
-		Node<T> *parent, *child;
-		parent = this->left;
-		child = this->left->right;
-
-		while (child->right != NULL) {
-			parent = child;
-			child = child->right;
-		}
-		parent->right = child->left;
-		child->left = NULL;
-		return child;
-	}
-	return NULL;
-}
-
-template <class T>
-void Node<T>::remove(T val) {
-	Node<T> * succ, *old;
-
-	if (val < this->value) {
-		if (this->left != NULL) {
-			if (this->left->value == val) {
-				old = this->left;
-				succ = this->left->succesor();
-				if (succ != NULL) {
-					succ->left = old->left;
-					succ->right = old->right;
-				}
-				this->left = succ;
-				delete old;
-			} else {
-				this->left->remove(val);
-			}
-		}
-	} else if (val > this->value) {
-		if (this->right != NULL) {
-			if (this->right->value == val) {
-				old = this->right;
-				succ = this->right->succesor();
-				if (succ != NULL) {
-					succ->left = old->left;
-					succ->right = old->right;
-				}
-				this->right = succ;
-				delete old;
-			} else {
-				this->right->remove(val);
-			}
-		}
-	}
-}
-
-template <class T>
-void Node<T>::removeChilds() {
-	if (this->left != NULL) {
-		this->left->removeChilds();
-		delete this->left;
-		this->left = NULL;
-	}
-	if (this->right != NULL) {
-		this->right->removeChilds();
-		delete this->right;
-		this->right = NULL;
-	}
-}
+Node<T>::Node(T val) : value(val), left(NULL), right(NULL), parent(NULL) {}
 
 template <class T>
 void Node<T>::inOrder(stringstream &aux) const {
-	if (this->left != NULL) {
-		this->left->inOrder(aux);
+	if (left != NULL) {
+		left->inOrder(aux);
 	}
-	aux << this->value << " ";
-	if (this->right != NULL) {
-		this->right->inOrder(aux);
+	aux << "." << value << ".";
+	if (right != NULL) {
+		right->inOrder(aux);
 	}
 }
 
 template <class T>
 void Node<T>::postOrder(stringstream &aux) const {
-	if (this->left != 0) {
-		this->left->postOrder(aux);
+	if (left != 0) {
+		left->postOrder(aux);
 	}
-	if (this->right != 0) {
-		this->right->postOrder(aux);
+	if (right != 0) {
+		right->postOrder(aux);
 	}
-	aux << this->value << " ";
+	aux << value << " ";
 }
 
 template <class T>
 void Node<T>::preOrder(stringstream &aux) const {
-	aux << this->value << " ";
-	if (this->left != NULL) {
-		this->left->preOrder(aux);
+	aux << value << " ";
+	if (left != NULL) {
+		left->preOrder(aux);
 	}
-	if (this->right != NULL) {
-		this->right->preOrder(aux);
+	if (right != NULL) {
+		right->preOrder(aux);
 	}
 }
 
@@ -292,16 +81,20 @@ class SplayTree {
 private:
 	Node<T> *root;
 
+	void zig(Node<T>*);
+	void zigZig(Node<T>*);
+	void zigZag(Node<T>*);
+	void splay(Node<T>*);
+
+	Node<T>* subtreeMax(Node<T> *);
+	Node<T>* subtreeMin(Node<T> *);
+
 public:
 	SplayTree();
-	~SplayTree();
 	bool empty() const;
-	bool find(T);
-
-	void add(T);
-
+	Node<T>* find(T);
+	void insert(T);
 	void remove(T);
-	void removeAll();
 
 	string inOrder() const;
 	string postOrder() const;
@@ -309,12 +102,8 @@ public:
 };
 
 template <class T>
-SplayTree<T>::SplayTree() : root(NULL) {}
-
-template <class T>
-SplayTree<T>::~SplayTree() {
-	removeAll();
-}
+SplayTree<T>::SplayTree()
+	: root(NULL) {}
 
 template <class T>
 bool SplayTree<T>::empty() const {
@@ -322,54 +111,305 @@ bool SplayTree<T>::empty() const {
 }
 
 template <class T>
-bool SplayTree<T>::find(T val) {
-	bool found;
+void SplayTree<T>::zig(Node<T> *x) {
+	Node<T> *p = x->parent;
 
-	if (empty()) {
-		return false;
-	}
+	if (p->left == x) {
+		Node<T> *A = x->left;
+		Node<T> *B = x->right;
+		Node<T> *C = p->right;
 
-	if (root->value == val) {
-		return true;
-	}
+		x->parent = NULL;
+		x->right = p;
 
-	root = root->splay(val, found);
-	return found;
-}
+		p->parent = x;
+		p->left = B;
 
-template<class T>
-void SplayTree<T>::add(T val) {
-	if (!empty()) {
-		root->add(val);
+		if (B != NULL) {
+			B->parent = p;
+		}
 	} else {
-		root = new Node<T>(val);
-	}
-}
+		Node<T> *A = p -> left;
+    Node<T> *B = x -> left;
+    Node<T> *C = x -> right;
 
-template <class T>
-void SplayTree<T>::remove(T val) {
-	if (!empty()) {
-		if (val == root->value) {
-			Node<T> *succ = root->succesor();
-			if (succ != NULL) {
-				succ->left = root->left;
-				succ->right = root->right;
-			}
-			delete root;
-			root = succ;
-		} else {
-			root->remove(val);
+    x->parent = NULL;
+    x->left = p;
+
+    p->parent = x;
+    p->right = B;
+
+    if (B != NULL) {
+			B->parent = p;
 		}
 	}
 }
 
 template <class T>
-void SplayTree<T>::removeAll() {
-	if (!empty()) {
-		root->removeChilds();
-		delete root;
-		root = NULL;
+void SplayTree<T>::zigZig(Node<T> *x) {
+    Node<T> *p = x->parent;
+    Node<T> *g = p->parent;
+
+    if (p->left == x) {
+			Node<T> *A = x->left;
+			Node<T> *B = x->right;
+			Node<T> *C = p->right;
+			Node<T> *D = g->right;
+
+			x->parent = g->parent;
+			x->right = p;
+
+			p->parent = x;
+			p->left = B;
+			p->right = g;
+
+			g->parent = p;
+			g->left = C;
+
+			if (x->parent != NULL) {
+				if (x->parent->left == g) {
+					x->parent->left = x;
+				} else {
+					x->parent->right = x;
+				}
+			}
+
+			if (B != NULL) {
+				B->parent = p;
+			}
+
+			if (C != NULL) {
+				C->parent = g;
+			}
+    } else {
+			Node<T> *A = g->left;
+			Node<T> *B = p->left;
+			Node<T> *C = x->left;
+			Node<T> *D = x->right;
+
+			x->parent = g->parent;
+			x->left = p;
+
+			p->parent = x;
+			p->left = g;
+			p->right = C;
+
+			g->parent = p;
+			g->right = B;
+
+			if (x->parent != NULL) {
+				if (x->parent->left == g) {
+					x->parent->left = x;
+				} else {
+					x->parent->right = x;
+				}
+			}
+
+			if (B != NULL) {
+				B->parent = g;
+			}
+
+			if (C != NULL) {
+				C->parent = p;
+			}
+    }
+}
+
+template <class T>
+void SplayTree<T>::zigZag(Node<T> *x) {
+	Node<T> *p = x->parent;
+	Node<T> *g = p->parent;
+
+	if (p->right == x) {
+		Node<T> *A = p->left;
+		Node<T> *B = x->left;
+		Node<T> *C = x->right;
+		Node<T> *D = g->right;
+
+		x->parent = g->parent;
+		x->left = p;
+		x->right = g;
+
+		p->parent = x;
+		p->right = B;
+
+		g->parent = x;
+		g->left = C;
+
+		if (x->parent != NULL) {
+			if (x->parent->left == g) {
+				x->parent->left = x;
+			}
+			else {
+				x->parent->right = x;
+			}
+		}
+
+		if (B != NULL) {
+			B->parent = p;
+		}
+
+		if (C != NULL) {
+			C->parent = g;
+		}
 	}
+	else {
+		Node<T> *A = g->left;
+		Node<T> *B = x->left;
+		Node<T> *C = x->right;
+		Node<T> *D = p->right;
+
+		x->parent = g->parent;
+		x->left = g;
+		x->right = p;
+
+		p->parent = x;
+		p->left = C;
+
+		g->parent = x;
+		g->right = B;
+
+		if (x->parent != NULL) {
+			if (x->parent->left == g) {
+				x->parent->left = x;
+			} else {
+				x->parent->right = x;
+			}
+		}
+
+		if (B != NULL) {
+			B->parent = g;
+		}
+
+		if (C != NULL) {
+			C->parent = p;
+		}
+	}
+}
+
+template <class T>
+void SplayTree<T>::splay(Node<T> *x) {
+	while (x->parent != NULL) {
+		Node<T> *p = x->parent;
+		Node<T> *g = p->parent;
+		if (g == NULL) {
+			zig(x);
+		} else if (g->left == p && p->left == x) {
+			zigZig(x);
+		}	else if (g->right == p && p->right == x) {
+			zigZig(x);
+		} else {
+			zigZag(x);
+		}
+	}
+	this -> root = x;
+}
+
+template <class T>
+Node<T>* SplayTree<T>::find(T x) {
+	Node<T> *ret = NULL;
+	Node<T> *curr = this -> root;
+	Node<T> *prev = NULL;
+
+	while (curr != NULL) {
+		prev = curr;
+		if (x < curr->value) {
+			curr = curr -> left;
+		} else if (x > curr->value) {
+			curr = curr -> right;
+		} else {
+			ret = curr;
+			break;
+		}
+	}
+
+	if (ret != NULL) {
+		splay(ret);
+	} else if (prev != NULL) {
+		splay(prev);
+	}
+	return ret;
+}
+
+template <class T>
+void SplayTree<T>::insert(T x) {
+	if (root == NULL) {
+		root = new Node<T>(x);
+		std::cout << "adding " << x << "\n";
+		return;
+	}
+
+	Node<T> *curr = this->root;
+	while (curr != NULL) {
+		if (x < curr->value) {
+			if (curr->left == NULL) {
+				Node<T> *newNode = new Node<T>(x);
+				curr->left = newNode;
+				newNode->parent = curr;
+				splay(newNode);
+				return;
+			} else {
+				curr = curr->left;
+			}
+		} else if (x > curr->value) {
+			if (curr->right == NULL) {
+				Node<T> *newNode = new Node<T>(x);
+				curr->right = newNode;
+				newNode->parent = curr;
+				splay(newNode);
+				return;
+			} else {
+				curr = curr->right;
+			}
+		} else {
+			splay(curr);
+			return;
+		}
+	}
+}
+
+template <class T>
+Node<T>* SplayTree<T>::subtreeMax(Node<T>*subRoot) {
+    Node<T>* curr = subRoot;
+    while (curr->right != NULL) {
+			curr = curr->right;
+		}
+    return curr;
+}
+
+template <class T>
+Node<T>* SplayTree<T>::subtreeMin(Node<T>*subRoot) {
+    Node<T>* curr = subRoot;
+    while (curr->left != NULL) {
+			curr = curr->left;
+		}
+    return curr;
+}
+
+template <class T>
+void SplayTree<T>::remove(T x) {
+	Node<T> *del = find(x);
+	if (del == NULL) {
+		return;
+	}
+
+	Node<T> *L = del->left;
+	Node<T> *R = del->right;
+	if (L == NULL && R == NULL) {
+		this->root = NULL;
+	} else if (L == NULL) {
+		Node<T> *M = subtreeMin(R);
+		splay(M);
+	} else if (R == NULL) {
+		Node<T> *M = subtreeMax(L);
+		splay(M);
+	}	else {
+		Node<T> *M = subtreeMax(L);
+		splay(M);
+		M->right = R;
+		R->parent = M;
+	}
+	delete del;
 }
 
 template <class T>
