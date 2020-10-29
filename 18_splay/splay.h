@@ -5,7 +5,7 @@
 // Description: This file contains the implementation of TDA
 //							Splay Tree.
 // Modified from:
-// 	https://www.geeksforgeeks.org/splay-tree-set-1-insert/
+// 	https://github.com/PetarV-/Algorithms/blob/master/Data%20Structures/Splay%20Tree.cpp
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
 // All Rights Reserved. May be reproduced for any non-commercial
@@ -93,7 +93,7 @@ public:
 	SplayTree();
 	bool empty() const;
 	Node<T>* find(T);
-	void insert(T);
+	void add(T);
 	void remove(T);
 
 	string inOrder() const;
@@ -332,7 +332,7 @@ Node<T>* SplayTree<T>::find(T x) {
 }
 
 template <class T>
-void SplayTree<T>::insert(T x) {
+void SplayTree<T>::add(T x) {
 	if (root == NULL) {
 		root = new Node<T>(x);
 		std::cout << "adding " << x << "\n";

@@ -8,35 +8,35 @@ int main(int argc, char* argv[]) {
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('D');
+    sTree.add('D');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('I');
+    sTree.add('I');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('N');
+    sTree.add('N');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('O');
+    sTree.add('O');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('S');
+    sTree.add('S');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('A');
+    sTree.add('A');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('U');
+    sTree.add('U');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('R');
+    sTree.add('R');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('Z');
+    sTree.add('Z');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
@@ -52,23 +52,23 @@ int main(int argc, char* argv[]) {
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('S');
+    sTree.add('S');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('S');
+    sTree.add('S');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('S');
+    sTree.add('S');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('O');
+    sTree.add('O');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
-    sTree.insert('O');
+    sTree.add('O');
     cout << sTree.preOrder();
     printf("\n---------------------------------------------------------------\n");
 
