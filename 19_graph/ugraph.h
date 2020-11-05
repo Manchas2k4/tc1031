@@ -37,14 +37,14 @@ public:
 /***********************************************************/
 template<class Vertex>
 class UMatrixGraph : public UnweightedGraph<Vertex>{
-private: 
+private:
 	int next, size;
 	bool direction;
 	std::vector<Vertex> vertexes;
 	std::vector<std::vector<bool> > edges;
-	
+
 	int indexOf(Vertex v) const;
-	
+
 public:
 	UMatrixGraph(int, bool dir = true);
 	void addEdge(Vertex from, Vertex to);
@@ -59,7 +59,7 @@ UMatrixGraph<Vertex>::UMatrixGraph(int max, bool dir) {
 	if (size == 0) {
         throw RangeError();
 	}
-	
+
 	next = 0;
 	direction = dir;
 	vertexes.resize(size);
@@ -87,21 +87,21 @@ void UMatrixGraph<Vertex>::addEdge(Vertex from, Vertex to) {
 		if (next == size) {
 			throw OutOfMemory();
 		}
-		
+
 		vertexes[next++] = from;
 		fp = next - 1;
 	}
-	
+
 	int tp = indexOf(to);
 	if (tp == -1) {
 		if (next == size) {
 			throw OutOfMemory();
 		}
-		
+
 		vertexes[next++] = to;
 		tp = next - 1;
 	}
-	
+
 	edges[fp][tp] = true;
 	if (!direction) {
 		edges[tp][fp] = true;
@@ -119,7 +119,7 @@ std::set<Vertex> UMatrixGraph<Vertex>::getConnectionFrom(Vertex v) const {
 	if (i == -1) {
 		throw NoSuchElement();
 	}
-	
+
 	std::set<Vertex> result;
 	for (int j = 0; j < next; j++) {
 		if (i != j && edges[i][j]) {
@@ -132,7 +132,7 @@ std::set<Vertex> UMatrixGraph<Vertex>::getConnectionFrom(Vertex v) const {
 template <class Vertex>
 std::string UMatrixGraph<Vertex>::toString() const {
 	std::stringstream aux;
-	
+
 	for (int i = 0; i < next; i++) {
 		aux << vertexes[i] << "\t";
 		for (int j = 0; j < next; j++) {
@@ -150,11 +150,11 @@ std::string UMatrixGraph<Vertex>::toString() const {
 
 template<class Vertex>
 class UListGraph : public UnweightedGraph<Vertex>{
-private: 
+private:
 	bool direction;
 	std::set<Vertex> vertexes;
-	std::map<Vertex, std::list<Vertex> > edges;
-	
+	std::map<Vertex, std::set<Vertex> > edges;
+
 public:
 	UListGraph(bool dir = true);
 	void addEdge(Vertex from, Vertex to);
@@ -171,20 +171,21 @@ UListGraph<Vertex>::UListGraph(bool dir) {
 template <class Vertex>
 void UListGraph<Vertex>::addEdge(Vertex from, Vertex to) {
 	typename std::set<Vertex>::iterator it;
-	
+	typename std::list<Vertex>::iterator j;
+
 	it = vertexes.find(from);
 	if (it == vertexes.end()) {
 		vertexes.insert(from);
 	}
-	
+
 	it = vertexes.find(to);
 	if (it == vertexes.end()) {
 		vertexes.insert(to);
 	}
-	
-	edges[from].push_back(to);
+
+	edges[from].insert(to);
 	if (!direction) {
-		edges[to].push_back(from);
+		edges[to].insert(from);
 	}
 }
 
@@ -198,7 +199,7 @@ std::set<Vertex> UListGraph<Vertex>::getConnectionFrom(Vertex v) const {
 	if (!containsVertex(v)) {
 		throw NoSuchElement();
 	}
-	
+
 	std::set<Vertex> result(edges.at(v).begin(), edges.at(v).end());
 	return result;
 }
@@ -206,10 +207,10 @@ std::set<Vertex> UListGraph<Vertex>::getConnectionFrom(Vertex v) const {
 template <class Vertex>
 std::string UListGraph<Vertex>::toString() const {
 	std::stringstream aux;
-	
+
 	typename std::set<Vertex>::iterator i;
-	typename std::list<Vertex>::const_iterator j;
-	
+	typename std::set<Vertex>::const_iterator j;
+
 	for (i = vertexes.begin(); i != vertexes.end(); i++) {
 		aux << (*i) << "\t";
 		for (j = edges.at((*i)).begin(); j != edges.at((*i)).end(); j++) {
@@ -230,7 +231,7 @@ std::set<Vertex> dfs(const Vertex& start, const UnweightedGraph<Vertex>* graph) 
 	std::set<Vertex> visited;
 	std::stack<Vertex> xVisit;
 	typename std::set<Vertex>::iterator itr;
-	
+
 	xVisit.push(start);
 	while (!xVisit.empty()) {
 		Vertex v = xVisit.top(); xVisit.pop();
@@ -254,7 +255,7 @@ std::set<Vertex> bfs(const Vertex& start, const UnweightedGraph<Vertex>* graph) 
 	std::set<Vertex> visited;
 	std::queue<Vertex> xVisit;
 	typename std::set<Vertex>::iterator itr;
-	
+
 	xVisit.push(start);
 	while (!xVisit.empty()) {
 		Vertex v = xVisit.front(); xVisit.pop();
@@ -270,4 +271,3 @@ std::set<Vertex> bfs(const Vertex& start, const UnweightedGraph<Vertex>* graph) 
 }
 
 #endif
-	
