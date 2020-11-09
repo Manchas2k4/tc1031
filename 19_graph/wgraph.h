@@ -26,6 +26,7 @@ class WeightedGraph {
 public:
 	virtual void addEdge(Vertex, Vertex, Edge) = 0;
 	virtual bool containsVertex(Vertex) const = 0;
+	virtual std::vector<Vertex> getVertexes() const = 0;
 	virtual std::map<Vertex, Edge> getConnectionFrom(Vertex) const = 0;
 	virtual std::string toString() const = 0;
 };
@@ -35,19 +36,20 @@ public:
 /***********************************************************/
 template<class Vertex, class Edge>
 class WMatrixGraph : public WeightedGraph<Vertex, Edge>{
-private: 
+private:
 	int next, size;
 	bool direction;
 	Edge infinite;
 	std::vector<Vertex> vertexes;
 	std::vector<std::vector<Edge> > edges;
-	
+
 	int indexOf(Vertex v) const;
-	
+
 public:
 	WMatrixGraph(int, Edge, bool dir = true);
 	void addEdge(Vertex from, Vertex to, Edge cost);
 	bool containsVertex(Vertex v) const;
+	std::vector<Vertex> getVertexes() const;
 	std::map<Vertex, Edge> getConnectionFrom(Vertex v) const;
 	std::string toString() const;
 };
@@ -58,7 +60,7 @@ WMatrixGraph<Vertex, Edge>::WMatrixGraph(int max, Edge inf, bool dir) {
 	if (size == 0) {
         throw RangeError();
 	}
-	
+
 	next = 0;
 	infinite = inf;
 	direction = dir;
@@ -87,21 +89,21 @@ void WMatrixGraph<Vertex, Edge>::addEdge(Vertex from, Vertex to, Edge cost) {
 		if (next == size) {
 			throw OutOfMemory();
 		}
-		
+
 		vertexes[next++] = from;
 		fp = next - 1;
 	}
-	
+
 	int tp = indexOf(to);
 	if (tp == -1) {
 		if (next == size) {
 			throw OutOfMemory();
 		}
-		
+
 		vertexes[next++] = to;
 		tp = next - 1;
 	}
-	
+
 	edges[fp][tp] = cost;
 	if (!direction) {
 		edges[tp][fp] = cost;
@@ -114,12 +116,18 @@ bool WMatrixGraph<Vertex, Edge>::containsVertex(Vertex v) const {
 }
 
 template <class Vertex, class Edge>
+std::vector<Vertex> UMatrixGraph<Vertex, Edge>::getVertexes() const {
+	std::vector<Vertex> result(vertexes);
+	return result;
+}
+
+template <class Vertex, class Edge>
 std::map<Vertex, Edge> WMatrixGraph<Vertex, Edge>::getConnectionFrom(Vertex v) const {
 	int i = indexOf(v);
 	if (i == -1) {
 		throw NoSuchElement();
 	}
-	
+
 	std::map<Vertex, Edge> result;
 	for (int j = 0; j < next; j++) {
 		if (i != j && edges[i][j] != infinite) {
@@ -132,7 +140,7 @@ std::map<Vertex, Edge> WMatrixGraph<Vertex, Edge>::getConnectionFrom(Vertex v) c
 template <class Vertex, class Edge>
 std::string WMatrixGraph<Vertex, Edge>::toString() const {
 	std::stringstream aux;
-	
+
 	for (int i = 0; i < next; i++) {
 		aux << vertexes[i] << "\t";
 		for (int j = 0; j < next; j++) {
@@ -150,15 +158,16 @@ std::string WMatrixGraph<Vertex, Edge>::toString() const {
 
 template<class Vertex, class Edge>
 class WListGraph : public WeightedGraph<Vertex, Edge>{
-private: 
+private:
 	bool direction;
 	std::set<Vertex> vertexes;
 	std::map<Vertex, std::map<Vertex, Edge> > edges;
-	
+
 public:
 	WListGraph(bool dir = true);
 	void addEdge(Vertex, Vertex, Edge);
 	bool containsVertex(Vertex) const;
+	std::vector<Vertex> getVertexes() const;
 	std::map<Vertex, Edge> getConnectionFrom(Vertex) const;
 	std::string toString() const;
 };
@@ -171,17 +180,19 @@ WListGraph<Vertex, Edge>::WListGraph(bool dir) {
 template <class Vertex, class Edge>
 void WListGraph<Vertex, Edge>::addEdge(Vertex from, Vertex to, Edge cost) {
 	typename std::set<Vertex>::iterator it;
-	
+
 	it = vertexes.find(from);
 	if (it == vertexes.end()) {
 		vertexes.insert(from);
+		edges.insert(std::pair<Vertex, std::map<Vertex, Edge> >(from, std::map<Vertex, Edge>()));
 	}
-	
+
 	it = vertexes.find(to);
 	if (it == vertexes.end()) {
 		vertexes.insert(to);
+		edges.insert(std::pair<Vertex, std::map<Vertex, Edge> >(to, std::map<Vertex, Edge>()));
 	}
-	
+
 	edges[from].insert(std::pair<Vertex, Edge>(to, cost));
 	if (!direction) {
 		edges[to].insert(std::pair<Vertex, Edge>(from, cost));
@@ -194,11 +205,17 @@ bool WListGraph<Vertex, Edge>::containsVertex(Vertex v) const {
 }
 
 template <class Vertex, class Edge>
+std::vector<Vertex> WListGraph<Vertex, Edge>::getVertexes() const {
+	std::vector<Vertex> result(vertexes.begin(), vertexes.end());
+	return result;
+}
+
+template <class Vertex, class Edge>
 std::map<Vertex, Edge> WListGraph<Vertex, Edge>::getConnectionFrom(Vertex v) const {
 	if (!containsVertex(v)) {
 		throw NoSuchElement();
 	}
-	
+
 	std::map<Vertex, Edge> result(edges.at(v).begin(), edges.at(v).end());
 	return result;
 }
@@ -206,15 +223,10 @@ std::map<Vertex, Edge> WListGraph<Vertex, Edge>::getConnectionFrom(Vertex v) con
 template <class Vertex, class Edge>
 std::string WListGraph<Vertex, Edge>::toString() const {
 	std::stringstream aux;
-	
+
 	typename std::set<Vertex>::iterator i;
 	typename std::map<Vertex, Edge>::const_iterator j;
-	
-	/*
-	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
-*/
-	
+
 	for (i = vertexes.begin(); i != vertexes.end(); i++) {
 		aux << (*i) << "\t";
 		for (j = edges.at((*i)).begin(); j != edges.at((*i)).end(); j++) {
@@ -235,7 +247,7 @@ std::set<Vertex> dfs(const Vertex& start, const WeightedGraph<Vertex, Edge>* gra
 	std::set<Vertex> visited;
 	std::stack<Vertex> xVisit;
 	typename std::map<Vertex, Edge>::iterator itr;
-	
+
 	xVisit.push(start);
 	while (!xVisit.empty()) {
 		Vertex v = xVisit.top(); xVisit.pop();
@@ -259,7 +271,7 @@ std::set<Vertex> bfs(const Vertex& start, const WeightedGraph<Vertex, Edge>* gra
 	std::set<Vertex> visited;
 	std::queue<Vertex> xVisit;
 	typename std::map<Vertex, Edge>::iterator itr;
-	
+
 	xVisit.push(start);
 	while (!xVisit.empty()) {
 		Vertex v = xVisit.front(); xVisit.pop();
@@ -275,4 +287,3 @@ std::set<Vertex> bfs(const Vertex& start, const WeightedGraph<Vertex, Edge>* gra
 }
 
 #endif
-	

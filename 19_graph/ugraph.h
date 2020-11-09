@@ -16,7 +16,6 @@
 #include <stack>
 #include <queue>
 #include <vector>
-
 #include <iostream>
 
 /***********************************************************/
@@ -28,6 +27,7 @@ class UnweightedGraph {
 public:
 	virtual void addEdge(Vertex, Vertex) = 0;
 	virtual bool containsVertex(Vertex) const = 0;
+	virtual std::vector<Vertex> getVertexes() const = 0;
 	virtual std::set<Vertex> getConnectionFrom(Vertex) const = 0;
 	virtual std::string toString() const = 0;
 };
@@ -49,6 +49,7 @@ public:
 	UMatrixGraph(int, bool dir = true);
 	void addEdge(Vertex from, Vertex to);
 	bool containsVertex(Vertex v) const;
+	std::vector<Vertex> getVertexes() const;
 	std::set<Vertex> getConnectionFrom(Vertex v) const;
 	std::string toString() const;
 };
@@ -114,6 +115,12 @@ bool UMatrixGraph<Vertex>::containsVertex(Vertex v) const {
 }
 
 template <class Vertex>
+std::vector<Vertex> UMatrixGraph<Vertex>::getVertexes() const {
+	std::vector<Vertex> result(vertexes);
+	return result;
+}
+
+template <class Vertex>
 std::set<Vertex> UMatrixGraph<Vertex>::getConnectionFrom(Vertex v) const {
 	int i = indexOf(v);
 	if (i == -1) {
@@ -159,6 +166,7 @@ public:
 	UListGraph(bool dir = true);
 	void addEdge(Vertex from, Vertex to);
 	bool containsVertex(Vertex v) const;
+	std::vector<Vertex> getVertexes() const;
 	std::set<Vertex> getConnectionFrom(Vertex v) const;
 	std::string toString() const;
 };
@@ -176,11 +184,13 @@ void UListGraph<Vertex>::addEdge(Vertex from, Vertex to) {
 	it = vertexes.find(from);
 	if (it == vertexes.end()) {
 		vertexes.insert(from);
+		edges.insert(std::pair<Vertex,std::set<Vertex> >(from, std::set<Vertex>()));
 	}
 
 	it = vertexes.find(to);
 	if (it == vertexes.end()) {
 		vertexes.insert(to);
+		edges.insert(std::pair<Vertex,std::set<Vertex> >(to, std::set<Vertex>()));
 	}
 
 	edges[from].insert(to);
@@ -195,17 +205,35 @@ bool UListGraph<Vertex>::containsVertex(Vertex v) const {
 }
 
 template <class Vertex>
-std::set<Vertex> UListGraph<Vertex>::getConnectionFrom(Vertex v) const {
-	if (!containsVertex(v)) {
-		throw NoSuchElement();
-	}
+std::vector<Vertex> UListGraph<Vertex>::getVertexes() const {
+	std::vector<Vertex> result(vertexes.begin(), vertexes.end());
+	return result;
+}
 
-	std::set<Vertex> result(edges.at(v).begin(), edges.at(v).end());
+template <class Vertex>
+std::set<Vertex> UListGraph<Vertex>::getConnectionFrom(Vertex v) const {
+	std::set<Vertex> result(edges.at(v));
 	return result;
 }
 
 template <class Vertex>
 std::string UListGraph<Vertex>::toString() const {
+	/*
+	typename std::map<Vertex, std::set<Vertex> >::const_iterator it;
+	typename std::set<Vertex>::const_iterator j;
+
+	std::stringstream aux;
+
+	for (it = edges.begin(); it != edges.end(); it++) {
+		aux << it->first << "\t";
+		for (j = it->second.begin(); j != it->second.end(); j++) {
+			aux << (*j) << "\t";
+		}
+		aux << "\n";
+	}
+	aux << "\n";
+	return aux.str();
+	*/
 	std::stringstream aux;
 
 	typename std::set<Vertex>::iterator i;
@@ -227,19 +255,23 @@ std::string UListGraph<Vertex>::toString() const {
 /***********************************************************/
 
 template <class Vertex>
-std::set<Vertex> dfs(const Vertex& start, const UnweightedGraph<Vertex>* graph) {
+std::set<Vertex> dfs(const Vertex& start,
+	const UnweightedGraph<Vertex>* graph) {
+
 	std::set<Vertex> visited;
-	std::stack<Vertex> xVisit;
+	std::stack<Vertex> pending;
 	typename std::set<Vertex>::iterator itr;
 
-	xVisit.push(start);
-	while (!xVisit.empty()) {
-		Vertex v = xVisit.top(); xVisit.pop();
+	pending.push(start);
+	while (!pending.empty()) {
+		Vertex v = pending.top(); pending.pop();
 		if (visited.find(v) == visited.end()) {
 			visited.insert(v);
-			std::set<Vertex> connected = graph->getConnectionFrom(v);
-			for (itr = connected.begin(); itr != connected.end(); itr++) {
-				xVisit.push( (*itr) );
+			std::set<Vertex> connected =
+					graph->getConnectionFrom(v);
+			for (itr = connected.begin();
+					itr != connected.end(); itr++) {
+				pending.push( (*itr) );
 			}
 		}
 	}
@@ -253,17 +285,20 @@ std::set<Vertex> dfs(const Vertex& start, const UnweightedGraph<Vertex>* graph) 
 template <class Vertex>
 std::set<Vertex> bfs(const Vertex& start, const UnweightedGraph<Vertex>* graph) {
 	std::set<Vertex> visited;
-	std::queue<Vertex> xVisit;
+	std::queue<Vertex> pending;
 	typename std::set<Vertex>::iterator itr;
 
-	xVisit.push(start);
-	while (!xVisit.empty()) {
-		Vertex v = xVisit.front(); xVisit.pop();
+	pending.push(start);
+	while (!pending.empty()) {
+		Vertex v = pending.front(); pending.pop();
 		if (visited.find(v) == visited.end()) {
 			visited.insert(v);
-			std::set<Vertex> connected = graph->getConnectionFrom(v);
-			for (itr = connected.begin(); itr != connected.end(); itr++) {
-				xVisit.push( (*itr) );
+			std::set<Vertex> connected =
+					graph->getConnectionFrom(v);
+
+			for (itr = connected.begin();
+					itr != connected.end(); itr++) {
+				pending.push( (*itr) );
 			}
 		}
 	}
