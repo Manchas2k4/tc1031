@@ -1,7 +1,7 @@
 /*
- * exception.h
- *      Author: pperezm
- */
+* exception.h
+*      Author: pperezm
+*/
 
 #ifndef EXCEPTION_H_
 #define EXCEPTION_H_
@@ -22,7 +22,7 @@ public:
 };
 
 Exception::Exception() throw ()
-	: text("Basic exception") {
+: text("Basic exception") {
 }
 
 Exception::~Exception() throw () {}
@@ -38,7 +38,7 @@ public:
 };
 
 RangeError::RangeError() throw () {
-		text = std::string("RangeError");
+	text = std::string("RangeError");
 }
 
 /*********** OutOfMemory ***********/
@@ -48,7 +48,7 @@ public:
 };
 
 OutOfMemory::OutOfMemory() throw () {
-		text = std::string("OutOfMemory");
+	text = std::string("OutOfMemory");
 }
 
 /*********** IndexOutOfBounds ***********/
@@ -68,7 +68,7 @@ public:
 };
 
 NoSuchElement::NoSuchElement() throw () {
-		text = std::string("NoSuchElement");
+	text = std::string("NoSuchElement");
 }
 
 /*********** IllegalAction ***********/
@@ -78,7 +78,7 @@ public:
 };
 
 IllegalAction::IllegalAction() throw () {
-		text = std::string("IllegalAction");
+	text = std::string("IllegalAction");
 }
 
 /*********** Overflow ***********/
@@ -88,6 +88,6 @@ public:
 };
 
 Overflow::Overflow() throw () {
-		text = std::string("Overflow");
+	text = std::string("Overflow");
 }
 #endif /* EXCEPTION_H_ */

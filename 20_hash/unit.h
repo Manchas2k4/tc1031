@@ -1,9 +1,9 @@
 /*
- * unit.h
- *
- *  Created on: 05/08/2015
- *      Author: pperezm
- */
+* unit.h
+*
+*  Created on: 05/08/2015
+*      Author: pperezm
+*/
 
 #ifndef UNIT_H_
 #define UNIT_H_

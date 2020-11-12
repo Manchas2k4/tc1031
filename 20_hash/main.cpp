@@ -1,9 +1,9 @@
 /*
- * main.cpp
- *
- *  Created on: 29/10/2015
- *      Author: pperezm
- */
+* main.cpp
+*
+*  Created on: 29/10/2015
+*      Author: pperezm
+*/
 
 #include <iostream>
 #include <cstring>
