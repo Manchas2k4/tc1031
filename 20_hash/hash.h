@@ -20,27 +20,30 @@ private:
 	unsigned int count;
 
 	Key *keys;
-	Key initialValue;
 	Value *values;
+
+	Key initialValue;
 
 	long indexOf(const Key) const;
 
 public:
-	HashTable(unsigned int, Key, unsigned int (*f) (const Key)) throw (OutOfMemory);
+	HashTable(unsigned int, Key,
+		unsigned int (*f) (const Key));
 	~HashTable();
 	bool full() const;
-	bool put(Key, Value) throw (Overflow);
+	bool put(Key, Value);
 	bool contains(const Key) const;
-	Value get(const Key) throw (NoSuchElement);
+	Value& get(const Key);
 	void clear();
 	std::string toString() const;
 };
 
 template <class Key, class Value>
-HashTable<Key, Value>::HashTable(unsigned int sze, Key init, unsigned int (*f) (const Key)) throw (OutOfMemory) {
+HashTable<Key, Value>::HashTable(unsigned int sze, Key init,
+	unsigned int (*f) (const Key)) {
 	size = sze;
 	keys = new Key[size];
-	if(keys == 0){
+	if(keys == NULL){
 		throw OutOfMemory();
 	}
 	initialValue = init;
@@ -49,7 +52,7 @@ HashTable<Key, Value>::HashTable(unsigned int sze, Key init, unsigned int (*f) (
 	}
 
 	values = new Value[size];
-	if(values == 0){
+	if(values == NULL){
 		throw OutOfMemory();
 	}
 	func = f;
@@ -59,9 +62,9 @@ HashTable<Key, Value>::HashTable(unsigned int sze, Key init, unsigned int (*f) (
 template <class Key, class Value>
 HashTable<Key, Value>::~HashTable() {
 	delete [] keys;
-	keys = 0;
+	keys = NULL;
 	delete [] values;
-	values = 0;
+	values = NULL;
 	size = 0;
 	func = 0;
 	count = 0;
@@ -69,7 +72,7 @@ HashTable<Key, Value>::~HashTable() {
 
 template <class Key, class Value>
 bool HashTable<Key, Value>::full() const {
-	return (count >= size); // recuerdaME este =
+	return (count >= size);
 }
 
 template <class Key, class Value>
@@ -77,42 +80,42 @@ long HashTable<Key, Value>::indexOf(const Key k) const {
 	unsigned int i, start;
 	//  start = func(k)% size;
 	//  i = func(k)% size;
-	start = i = func(k)% size;
+	start = i = func(k) % size;
 	do{
-		if(keys[i]==k){
+		if (keys[i] == k){
 			return i;
 		}
 		i = (i + 1) % size;
-	}while(start != i);
+	} while(start != i);
 
 	return -1;
 }
 
 template <class Key, class Value>
-bool HashTable<Key, Value>::put(Key k, Value v) throw (Overflow) {
+bool HashTable<Key, Value>::put(Key k, Value v) {
 	unsigned int i, start;
 	long pos;
 
-	if(full()){
+	if (full()){
 		throw Overflow();
 	}
 
 	pos = indexOf(k);
-	if(pos != -1){ //update
+	if(pos != -1) { // update
 		values[pos] = v;
 		return true;
 	}
 
-	start =  i = func(k) % size;
+	start = i = func(k) % size;
 	do{
-		if(keys[i]== initialValue){
+		if (keys[i] == initialValue){
 			keys[i] = k;
 			values[i] = v;
 			count++;
 			return true;
 		}
 		i = (i + 1) % size;
-	}while(start!=i);
+	} while(start != i);
 	return false;
 }
 
@@ -124,14 +127,15 @@ bool HashTable<Key, Value>::contains(const Key k) const {
 }
 
 template <class Key, class Value>
-Value HashTable<Key, Value>::get(const Key k) throw (NoSuchElement) {
+Value& HashTable<Key, Value>::get(const Key k) {
 	long pos;
 
 	pos = indexOf(k);
-	if(pos != -1){
-		return values[pos];
+	if (pos == -1) {
+		throw NoSuchElement();
 	}
-	throw NoSuchElement();
+
+	return values[pos];
 }
 
 template <class Key, class Value>
