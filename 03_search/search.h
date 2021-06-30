@@ -2,7 +2,7 @@
 //
 // File: search.h
 // Author: Pedro Perez
-// Description: This file contains the implementation of the
+// Description: This file contains the implementations of the
 //				sequential and binary search algorithms.
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
@@ -13,10 +13,7 @@
 #define SEARCH_H
 
 #include "header.h"
-#include <iostream>
 #include <vector>
-
-using namespace std;
 
 // =================================================================
 // Performs a sequential search for an element within an array.
@@ -28,7 +25,7 @@ using namespace std;
 //		   is not found in the array.
 // =================================================================
 template <class T>
-int sequentialSearch(const vector<T> &v, T key) {
+int sequentialSearch(const std::vector<T> &v, T key) {
 	for (int i = 0; i < v.size(); i++) {
 		if (v[i] == key) {
 			return i;
@@ -36,20 +33,6 @@ int sequentialSearch(const vector<T> &v, T key) {
 	}
 	return -1;
 }
-
-/*
-template <class T>
-vector<int> sequentialSearch(const vector<T> &v, T key) {
-	vector<int> positions;
-
-	for (int i = 0; i < v.size(); i++) {
-		if (v[i] == key) {
-			positions.push_back(i);
-		}
-	}
-	return positions;
-}
-*/
 
 // =================================================================
 // Performs a binary search for an element within an array.
@@ -61,7 +44,7 @@ vector<int> sequentialSearch(const vector<T> &v, T key) {
 //		   is not found in the array.
 // =================================================================
 template <class T>
-int binarySearch(const vector<T> &v, T key) {
+int binarySearch(const std::vector<T> &v, T key) {
 	int low, high, mid;
 
 	low = 0;
@@ -89,7 +72,7 @@ int binarySearch(const vector<T> &v, T key) {
 //		   is not found in the array.
 // =================================================================
 template <class T>
-int binaryRSearch(const vector<T> &v, int low, int high, T key) {
+int binaryRSearch(const std::vector<T> &v, int low, int high, T key) {
 	int mid;
 
 	if (low > high) {

@@ -13,39 +13,38 @@
 #include "search.h"
 #include <vector>
 
-using namespace std;
-
 const int SIZE = 1000000000;
 
 int main(int argc, char* argv[]) {
   Chronometer c;
 	double ms;
-  vector<int> v(SIZE);
+  std::vector<int> v(SIZE);
   int result;
 
   for (int i = 0; i < SIZE; i++) {
     v[i] = (i + 1);
   }
 
-  cout << "Starting sequential\n";
+  std::cout << "Starting sequential\n";
   c.start();
   result = sequentialSearch(v, 0);
   ms = c.stop();
-  cout << "result = " << result << "\n";
-  cout << "time = " << ms << " ms\n";
+  std::cout << "result = " << result << "\n";
+  std::cout << "time = " << ms << " ms\n";
 
-  cout << "Starting binary\n";
+  std::cout << "Starting binary\n";
   c.start();
   result = binarySearch(v, 0);
   ms = c.stop();
-  cout << "result = " << result << "\n";
-  cout << "time = " << ms << " ms\n";
+  std::cout << "result = " << result << "\n";
+  std::cout << "time = " << ms << " ms\n";
 
-  cout << "Starting binaryR\n";
+  std::cout << "Starting binaryR\n";
   c.start();
   result = binaryRSearch(v, 0, v.size(), 0);
   ms = c.stop();
-  cout << "result = " << result << "\n";
-  cout << "time = " << ms << " ms\n";
+  std::cout << "result = " << result << "\n";
+  std::cout << "time = " << ms << " ms\n";
+  
   return 0;
 }

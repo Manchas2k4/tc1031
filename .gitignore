@@ -1,5 +1,5 @@
 # Compiled source #
-################### 
+###################
 *.com
 *.class
 *.dll
@@ -7,6 +7,7 @@
 *.o
 *.so
 *.out
+app
 
 # Packages #
 ############
@@ -42,5 +43,3 @@ Thumbs.db
 CMakeFiles/
 cmake_install.cmake
 CMakeCache.txt
-Makefile
-runTests

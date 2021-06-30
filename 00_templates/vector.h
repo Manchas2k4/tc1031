@@ -40,7 +40,6 @@ public:
 	Vector<T>& operator=(const Vector<T>&);
 };
 
-/*
 // =================================================================
 // Constructor. Creates a vector with a default size = 1.
 //
@@ -224,5 +223,5 @@ Vector<T>& Vector<T>::operator=(const Vector<T> &right) {
 	}
 	return (*this);
 }
-*/
+
 #endif /* VECTOR_H */
