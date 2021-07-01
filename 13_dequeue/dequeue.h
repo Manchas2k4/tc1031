@@ -16,10 +16,7 @@
 #include <string>
 #include <sstream>
 #include "exception.h"
-
-using namespace std;
-
-typedef unsigned int uint;
+#include "header.h"
 
 template <class T> class Dequeue;
 
@@ -32,7 +29,7 @@ private:
 	Node(T);
 	Node(T, Node<T>*, Node<T>*);
 
-	T	    value;
+	T	    	value;
 	Node<T> *previous;
 	Node<T> *next;
 
@@ -59,37 +56,36 @@ template <class T>
 Node<T>::Node(T val, Node *prev, Node* nxt)
 	: value(val), previous(prev), next(nxt) {}
 
-	// =================================================================
+// =================================================================
 // Definition of the Dequeue class
 // =================================================================
-	template <class T>
-	class Dequeue {
-	private:
-		Node<T> *head;
-		Node<T> *tail;
-		uint 	 size;
+template <class T>
+class Dequeue {
+private:
+	Node<T> *head;
+	Node<T> *tail;
+	uint 	 size;
 
-	public:
-		Dequeue();
-		~Dequeue();
+public:
+	Dequeue();
+	~Dequeue();
 
-		bool empty() const;
-		uint length() const;
-		bool contains(T) const;
-		void clear();
-		T    get(uint) const;
+	bool empty() const;
+	uint length() const;
+	bool contains(T) const;
+	void clear();
 
-		T    front() const;
-		T		 back() const;
+	T    front() const;
+	T		 last() const;
 
-		void push_front(T);
-		void push_back(T);
+	void push_front(T);
+	void push_back(T);
 
-		void remove_front();
-		void remove_back();
+	void pop_front();
+	void pop_back();
 
-		string toString() const;
-	};
+	std::string toString() const;
+};
 
 // =================================================================
 // Constructor. Initializes both instance variables to zero.
@@ -164,35 +160,6 @@ void Dequeue<T>::clear() {
 }
 
 // =================================================================
-// Returns the element that is in the position indicated by index.
-//
-// @returns the element in index
-// @throws IndexOutOfBounds, if index >= size.
-// =================================================================
-template <class T>
-T Dequeue<T>::get(uint index) const {
-	uint pos;
-	Node<T> *p;
-
-	if (index >= size) {
-		throw IndexOutOfBounds();
-	}
-
-	if (index == 0) {
-		return front();
-	}
-
-	p = head;
-	pos = 0;
-	while (pos != index) {
-		p = p->next;
-		pos++;
-	}
-
-	return p->value;
-}
-
-// =================================================================
 // Returns the first item in the list.
 //
 // @returns the object T referenced by head.
@@ -214,7 +181,7 @@ T Dequeue<T>::front() const {
 // @throws NoSuchElement, if the list is empty.
 // =================================================================
 template <class T>
-T Dequeue<T>::back() const {
+T Dequeue<T>::last() const {
 	if (empty()) {
 		throw NoSuchElement();
 	}
@@ -227,18 +194,18 @@ T Dequeue<T>::back() const {
 // =================================================================
 template <class T>
 void Dequeue<T>::push_front(T val) {
-    Node<T> *new_link;
-    new_link = new Node<T>(val);
+	Node<T> *new_link;
+	new_link = new Node<T>(val);
 
-    if (empty()) {
-        head = new_link;
-        tail = new_link;
-    } else {
-        new_link->next = head;
-        head->previous = new_link;
-        head = new_link;
-    }
-    size++;
+	if (empty()) {
+		head = new_link;
+		tail = new_link;
+	} else {
+		new_link->next = head;
+		head->previous = new_link;
+		head = new_link;
+	}
+	size++;
 }
 
 // =================================================================
@@ -247,18 +214,18 @@ void Dequeue<T>::push_front(T val) {
 // =================================================================
 template <class T>
 void Dequeue<T>::push_back(T val) {
-    Node<T> *new_link;
-    new_link = new Node<T>(val);
+	Node<T> *new_link;
+	new_link = new Node<T>(val);
 
-    if (empty()) {
-        head = new_link;
-        tail = new_link;
-    } else {
-        new_link->previous = tail;
-        tail->next= new_link;
-        tail = new_link;
-    }
-    size++;
+	if (empty()) {
+		head = new_link;
+		tail = new_link;
+	} else {
+		new_link->previous = tail;
+		tail->next= new_link;
+		tail = new_link;
+	}
+	size++;
 }
 
 // =================================================================
@@ -268,24 +235,25 @@ void Dequeue<T>::push_back(T val) {
 // @throws NoSuchElement if the list is empty
 // =================================================================
 template <class T>
-void Dequeue<T>::remove_front() {
-    Node<T> *p;
+void Dequeue<T>::pop_front() {
+	Node<T> *p;
+	T val;
 
-    if (empty()) {
-        throw NoSuchElement();
-    }
+	if (empty()) {
+		throw NoSuchElement();
+	}
 
-    p = head;
-    val = p->value;
-    if (head == tail) {
-        head = NULL;
-        tail = NULL;
-    } else {
-        head = p->next;
-        p->next->previous = NULL;
-    }
-    delete p;
-    size--;
+	p = head;
+	val = p->value;
+	if (head == tail) {
+		head = NULL;
+		tail = NULL;
+	} else {
+		head = p->next;
+		p->next->previous = NULL;
+	}
+	delete p;
+	size--;
 }
 
 // =================================================================
@@ -295,25 +263,25 @@ void Dequeue<T>::remove_front() {
 // @throws NoSuchElement if the list is empty
 // =================================================================
 template <class T>
-T Dequeue<T>::remove_back() {
-    T val;
-    Node<T> *p;
+void Dequeue<T>::pop_back() {
+	T val;
+	Node<T> *p;
 
-    if (empty()) {
-        throw NoSuchElement();
-    }
+	if (empty()) {
+		throw NoSuchElement();
+	}
 
-		p = tail;
-		val = p->value;
-		if (head == tail) {
-				head = NULL;
-				tail = NULL;
-		} else {
-				tail = p->previous;
-				p->previous->next = NULL;
-		}
-		delete p;
-		size--;
+	p = tail;
+	val = p->value;
+	if (head == tail) {
+		head = NULL;
+		tail = NULL;
+	} else {
+		tail = p->previous;
+		p->previous->next = NULL;
+	}
+	delete p;
+	size--;
 }
 
 // =================================================================
@@ -322,7 +290,7 @@ T Dequeue<T>::remove_back() {
 // @returns a string containing all the elements of the list.
 // =================================================================
 template <class T>
-string Dequeue<T>::toString() const {
+std::string Dequeue<T>::toString() const {
 	std::stringstream aux;
 	Node<T> *p;
 

@@ -11,89 +11,83 @@
 // =================================================================
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.h"
-#include "stack.h"
+#include "dequeue.h"
 
-TEST_CASE( "Testing vector implementation", "[StackVector]" ) {
-	StackVector<int> s1(5), s2(5);
-	for (int i = 0; i < 3; i++) {
-		s2.push(i);
+TEST_CASE( "Testing dequeue implementation", "[Dequeue]" ) {
+	Dequeue<int> dq1, dq2, dq3;
+	for (int i = 1; i <= 10; i++) {
+		dq2.push_back(i);
+		dq3.push_back(i);
 	}
 
-	SECTION( "1: Pushing an element at the top." ) {
-		s1.push(0);
-		REQUIRE(strcmp(s1.toString().c_str(), "[0]") == 0);
-		s2.push(3);
-		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1, 2, 3]") == 0);
+	SECTION( "1: Testing size of a list." ) {
+		REQUIRE(dq1.length() == 0);
+		REQUIRE(dq2.length() == 10);
 	}
 
-	SECTION( "2: Testing overflow." ) {
-		s2.push(3);
-		s2.push(4);
-		REQUIRE_THROWS_AS(s2.push(5), Overflow);
+	SECTION( "2: Testing if dequeue is empty." ) {
+		REQUIRE(dq1.empty() == true);
+		REQUIRE(dq2.empty() == false);
 	}
 
-	SECTION( "3: Checking the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
-
-		int x = s2.top();
-		REQUIRE(x == 2);
-		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1, 2]") == 0);
+	SECTION( "3: Testing if a element is in a list." ) {
+		REQUIRE(dq2.contains(100) == false);
+		REQUIRE(dq2.contains(5) == true);
 	}
 
-	SECTION( "4: Popping out the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
-
-		s2.pop();
-		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1]") == 0);
+	SECTION( "4: Testing to clear a list." ) {
+		dq3.clear();
+		REQUIRE(dq3.length() == 0);
+		REQUIRE(strcmp(dq3.toString().c_str(), "[]") == 0);
 	}
 
-	SECTION( "5: Testing if the stack is empty." ) {
-		REQUIRE(s1.empty() == true);
-		REQUIRE(s2.empty() == false);
+	SECTION( "5: Getting the first element." ) {
+		REQUIRE_THROWS_AS(dq1.front(), NoSuchElement);
+		REQUIRE(dq2.front() == 1);
 	}
 
-	SECTION( "6: Testing to clear a stack." ) {
-		s2.clear();
-		REQUIRE(strcmp(s2.toString().c_str(), "[]") == 0);
-	}
-}
-
-TEST_CASE( "Testing list implementation", "[StackList]" ) {
-	StackList<int> s1, s2;
-	for (int i = 0; i < 3; i++) {
-		s2.push(i);
+	SECTION( "6: Getting the last element." ) {
+		REQUIRE_THROWS_AS(dq1.last(), NoSuchElement);
+		REQUIRE(dq2.last() == 10);
 	}
 
-	SECTION( "1: Pushing an element at the top." ) {
-		s1.push(0);
-		REQUIRE(strcmp(s1.toString().c_str(), "[0]") == 0);
-		s2.push(3);
-		REQUIRE(strcmp(s2.toString().c_str(), "[3, 2, 1, 0]") == 0);
+	SECTION( "7: Pushing at the front." ) {
+		dq1.push_front(0);
+		REQUIRE(dq1.length() == 1);
+		REQUIRE(strcmp(dq1.toString().c_str(), "[0]") == 0);
+
+		dq2.push_front(0);
+		REQUIRE(dq2.length() == 11);
+		REQUIRE(strcmp(dq2.toString().c_str(), "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]") == 0);
 	}
 
-	SECTION( "2: Checking the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+	SECTION( "8: Pushing at the back." ) {
+		dq1.push_back(11);
+		REQUIRE(dq1.length() == 1);
+		REQUIRE(strcmp(dq1.toString().c_str(), "[11]") == 0);
 
-		int x = s2.top();
-		REQUIRE(x == 2);
-		std::cout << s2.toString() << "\n";
-		REQUIRE(strcmp(s2.toString().c_str(), "[2, 1, 0]") == 0);
+		dq2.push_back(11);
+		REQUIRE(dq2.length() == 11);
+		REQUIRE(strcmp(dq2.toString().c_str(), "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]") == 0);
 	}
 
-	SECTION( "4: Popping out the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+	SECTION( "9: Getting the front element." ) {
+		int x;
 
-		s2.pop();
-		REQUIRE(strcmp(s2.toString().c_str(), "[1, 0]") == 0);
+		REQUIRE_THROWS_AS(dq1.pop_front(), NoSuchElement);
+
+		dq2.pop_front();
+		REQUIRE(dq2.length() == 9);
+		REQUIRE(strcmp(dq2.toString().c_str(), "[2, 3, 4, 5, 6, 7, 8, 9, 10]") == 0);
 	}
 
-	SECTION( "5: Testing if the stack is empty." ) {
-		REQUIRE(s1.empty() == true);
-		REQUIRE(s2.empty() == false);
-	}
+	SECTION( "10: Getting the last element." ) {
+		int x;
 
-	SECTION( "6: Testing to clear a stack." ) {
-		s2.clear();
-		REQUIRE(strcmp(s2.toString().c_str(), "[]") == 0);
+		REQUIRE_THROWS_AS(dq1.pop_back(), NoSuchElement);
+
+		dq2.pop_back();
+		REQUIRE(dq2.length() == 9);
+		REQUIRE(strcmp(dq2.toString().c_str(), "[1, 2, 3, 4, 5, 6, 7, 8, 9]") == 0);
 	}
 }
