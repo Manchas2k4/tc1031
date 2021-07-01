@@ -19,10 +19,7 @@
 #include <string>
 #include <list>
 #include "exception.h"
-
-using namespace std;
-
-typedef unsigned int uint;
+#include "header.h"
 
 // =================================================================
 // Definition of the Stack interface.
@@ -35,7 +32,7 @@ public:
     virtual void pop() = 0;
     virtual bool empty() const = 0;
     virtual void clear() = 0;
-    virtual string toString() const = 0;
+    virtual std::string toString() const = 0;
 };
 
 // =================================================================
@@ -55,7 +52,7 @@ public:
   void pop();
   bool empty() const;
   void clear();
-  string toString() const;
+  std::string toString() const;
 };
 
 // =================================================================
@@ -71,7 +68,6 @@ StackVector<T>::StackVector(uint s) {
   next = 0;
 }
 
-
 // =================================================================
 // Destructor.
 // =================================================================
@@ -82,7 +78,6 @@ StackVector<T>::~StackVector() {
   size = 0;
   next = 0;
 }
-
 
 // =================================================================
 // Add an item to the stack.
@@ -149,8 +144,8 @@ void StackVector<T>::clear() {
 // @return an string with the representation of the stack.
 // =================================================================
 template <class T>
-string StackVector<T>::toString() const {
-  stringstream aux;
+std::string StackVector<T>::toString() const {
+  std::stringstream aux;
 
   aux << "[";
   if (next > 0) {
@@ -169,7 +164,7 @@ string StackVector<T>::toString() const {
 template <class T>
 class StackList : public Stack<T> {
 private:
-  list<T> data;
+  std::list<T> data;
 
 public:
   void push(T);
@@ -177,7 +172,7 @@ public:
   void pop();
   bool empty() const;
   void clear();
-  string toString() const;
+  std::string toString() const;
 };
 
 // =================================================================
@@ -241,9 +236,9 @@ void StackList<T>::clear() {
 // @return an string with the representation of the stack.
 // =================================================================
 template <class T>
-string StackList<T>::toString() const {
-  stringstream aux;
-  typename list<T>::const_iterator itr = data.begin();
+std::string StackList<T>::toString() const {
+  std::stringstream aux;
+  typename std::list<T>::const_iterator itr = data.begin();
 
   aux << "[";
   if (!data.empty()) {

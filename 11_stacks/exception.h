@@ -1,12 +1,12 @@
 // =================================================================
 //
-// File: exception.h 
+// File: exception.h
 // Author: Pedro Perez
-// Description: This file contains the definition of the different 
+// Description: This file contains the definition of the different
 //				exceptions that we will use throughout the semester.
 //
-// Copyright (c) 2020 by Tecnologico de Monterrey.  
-// All Rights Reserved. May be reproduced for any non-commercial 
+// Copyright (c) 2020 by Tecnologico de Monterrey.
+// All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
 // =================================================================
 
