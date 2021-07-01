@@ -29,13 +29,13 @@ int main(int argc, char* argv[]) {
   double ms;
 
   for (int i = 0; i < 3; i++) {
-    cout << "Starting size = " << size <<  "...";
+    std::cout << "Starting size = " << size <<  "...";
     arr = new int[size];
     fillArray(arr, size);
     c.start();
     selectionSort(arr, size);
     ms = c.stop();
-    cout<< " time = " << ms << " ms\n";
+    std::cout<< " time = " << ms << " ms\n";
     delete [] arr;
     size *= 10;
   }
