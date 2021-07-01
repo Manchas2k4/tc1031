@@ -2,9 +2,9 @@
 //
 // File: iterative.cpp
 // Author: Pedro Perez
-// Description: This file implements the solution for the problem: 
-//				given an array A[] of n numbers and another number 
-//				x, determines whether or not there exist two 
+// Description: This file implements the solution for the problem:
+//				given an array A[] of n numbers and another number
+//				x, determines whether or not there exist two
 //				elements in S whose sum is exactly x.
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
@@ -30,14 +30,14 @@ bool exactSum(int arr[], int n, int x) {
 }
 
 int main(int argc, char* argv[]) {
-	int A[] = { 1, 4, 45, 6, 10, -8 }; 
+	int A[] = { 1, 4, 45, 6, 10, -8 };
 	int n = 6;
-    int x = 16; 
-	
+	int x = 16;
+
 	if (exactSum(A, n, x)) {
-        cout << "Array has two elements with given sum\n"; 
-    } else {
-        cout << "Array doesn't have two elements with given sum\n"; 
+		cout << "Array has two elements with given sum\n";
+	} else {
+		cout << "Array doesn't have two elements with given sum\n";
 	}
-    return 0; 
+	return 0;
 }
