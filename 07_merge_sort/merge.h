@@ -12,11 +12,12 @@
 #ifndef MERGE_H
 #define MERGE_H
 
-#include <iostream>
-#include <cstring>
 #include "header.h"
+#include <vector>
 
-using namespace std;
+// =================================================================
+// MERGE SORT - ARRAY VERSION
+// =================================================================
 
 // =================================================================
 // Copy the range [low, high] from array B to array A.
@@ -28,10 +29,6 @@ using namespace std;
 // =================================================================
 template <class T>
 void copyArray(T *A, T *B, int low, int high) {
-	/*
-	int size = high - low + 1;
-	memcpy(A + low, B + low, sizeof(T) * size);
-	*/
 	for (int i = low; i <= high; i++) {
 		A[i] = B[i];
 	}
@@ -48,27 +45,27 @@ void copyArray(T *A, T *B, int low, int high) {
 // =================================================================
 template <class T>
 void merge(T *A, T *B, int low, int mid, int high) {
-    int i, j, k;
-    i = low;
-    j = mid + 1;
-    k = low;
-    while(i <= mid && j <= high){
-        if(A[i] < A[j]){
-            B[k] = A[i];
-            i++;
-        } else {
-            B[k] = A[j];
-            j++;
-        }
-        k++;
-    }
-    for(; j <= high; j++){
-        B[k++] = A[j];
-    }
+	int i, j, k;
+	i = low;
+	j = mid + 1;
+	k = low;
+	while(i <= mid && j <= high){
+		if(A[i] < A[j]){
+			B[k] = A[i];
+			i++;
+		} else {
+			B[k] = A[j];
+			j++;
+		}
+		k++;
+	}
+	for(; j <= high; j++){
+		B[k++] = A[j];
+	}
 
-	  for(; i <= mid; i++){
-        B[k++] = A[i];
-    }
+	for(; i <= mid; i++){
+		B[k++] = A[i];
+	}
 }
 
 // =================================================================
@@ -84,15 +81,15 @@ void merge(T *A, T *B, int low, int mid, int high) {
 // =================================================================
 template<class T>
 void split(T *A, T *B, int low, int high) {
-    int  mid, size, i, j;
+	int  mid, size, i, j;
 
-		if (high - low == 0) return;
+	if (high - low == 0) return;
 
-    mid = low + ((high - low) / 2);
-    split(A, B, low, mid);
-    split(A, B, mid + 1, high);
-    merge(A, B,low, mid, high);
-    copyArray(A, B, low, high);
+	mid = low + ((high - low) / 2);
+	split(A, B, low, mid);
+	split(A, B, mid + 1, high);
+	merge(A, B,low, mid, high);
+	copyArray(A, B, low, high);
 }
 
 // =================================================================
@@ -106,6 +103,96 @@ void mergeSort(T *A, int size) {
 	T *B = new T[size];
 	split(A, B, 0, size - 1);
 	delete [] B;
+}
+
+// =================================================================
+// MERGE SORT - VECTOR VERSION
+// =================================================================
+
+// =================================================================
+// Copy the range [low, high] from array B to array A.
+//
+// @param A, the destination vector.
+// @param B, the source vector.
+// @param low, lower index.
+// @param high, higher index.
+// =================================================================
+template <class T>
+void copyArray(std::vector<T> &A, std::vector<T> &B, int low, int high) {
+	for (int i = low; i <= high; i++) {
+		A[i] = B[i];
+	}
+}
+
+// =================================================================
+// Merge both halves of A, using B array as temporary storage.
+//
+// @param A, the source vector.
+// @param B, the destination vector.
+// @param low, lower index.
+// @param mid, middle index.
+// @param high, higher index.
+// =================================================================
+template <class T>
+void merge(std::vector<T> &A, std::vector<T> &B, int low, int mid, int high) {
+	int i, j, k;
+	i = low;
+	j = mid + 1;
+	k = low;
+	while(i <= mid && j <= high){
+		if(A[i] < A[j]){
+			B[k] = A[i];
+			i++;
+		} else {
+			B[k] = A[j];
+			j++;
+		}
+		k++;
+	}
+
+	for(; j <= high; j++){
+		B[k++] = A[j];
+	}
+
+	for(; i <= mid; i++){
+		B[k++] = A[i];
+	}
+}
+
+// =================================================================
+// If the minimum unit has not been reached (a single array
+// position), separate the range [low, high] into two halves,
+// invoking the split process again. When no more separations can be
+// made, mix both halves of the arrangement.
+//
+// @param A, the source array.
+// @param B, the temporal array.
+// @param low, lower index.
+// @param high, higher index.
+// =================================================================
+template<class T>
+void split(std::vector<T> &A, std::vector<T> &B, int low, int high) {
+	int  mid, size, i, j;
+
+	if (high - low == 0) return;
+
+	mid = low + ((high - low) / 2);
+	split(A, B, low, mid);
+	split(A, B, mid + 1, high);
+	merge(A, B,low, mid, high);
+	copyArray(A, B, low, high);
+}
+
+// =================================================================
+// Performs the merge sort algorithm.
+//
+// @param A, an array of T elements.
+// @param size, the number of elements in the array.
+// =================================================================
+template <class T>
+void mergeSort(std::vector<T> &A) {
+	std::vector<T> B(A);
+	split(A, B, 0, A.size() - 1);
 }
 
 #endif /* MERGE_H */
