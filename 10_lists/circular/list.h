@@ -1,23 +1,22 @@
 // =================================================================
 //
-// File: list.h
+// File: CircularList.h
 // Author:
-// Description: This file contains the implementation of a TDA List
+// Description: This file contains the implementation of a TDA CircularList
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
 // All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
 // =================================================================
-#ifndef LIST_H
-#define LIST_H
+#ifndef CircularList_H
+#define CircularList_H
 
 #include <string>
 #include <sstream>
 #include "exception.h"
+#include "header.h"
 
-typedef unsigned int uint;
-
-template <class T> class List;
+template <class T> class CircularList;
 
 // =================================================================
 // Definition of the Node class
@@ -31,7 +30,7 @@ private:
 	T	    value;
 	Node<T> *next;
 
-	friend class List<T>;
+	friend class CircularList<T>;
 };
 
 // =================================================================
@@ -55,240 +54,154 @@ Node<T>::Node(T val, Node* nxt) : value(val), next(nxt) {
 }
 
 // =================================================================
-// Definition of the List class
+// Definition of the CircularList class
 // =================================================================
 template <class T>
-class List {
+class CircularList {
 private:
-	Node<T> *head;
-	uint 	size;
+	Node<T> *head, *tail;
+	Node<T> *previous, *current;
+	bool 		traversing;
 
 public:
-	List();
-	~List();
+	CircularList();
+	~CircularList();
 
-	uint  length() const;
 	bool empty() const;
 	bool contains(T) const;
 	void clear();
 	std::string toString() const;
 
-	T    front() const;
-	T    last() const;
-	T    get(uint) const;
-
-	void push_front(T);
 	void push_back(T);
-	void insert_at(T, uint);
-
-	T    pop_front();
-	T 	 pop_back();
-	T    remove_at(uint);
-
-	long int  indexOf(T) const;
+	T 	 pop_front();
 };
 
 // =================================================================
 // Constructor. Initializes both instance variables to zero.
 // =================================================================
 template <class T>
-List<T>::List() :head(NULL), size(0) {
+CircularList<T>::CircularList()
+	: head(NULL), tail(NULL), previous(NULL), current(NULL), traversing(false) {
 }
 
 // =================================================================
-// Destructor. Remove all items from the list.
+// Destructor. Remove all items from the CircularList.
 // =================================================================
 template <class T>
-List<T>::~List() {
-    clear();
+CircularList<T>::~CircularList() {
+	clear();
 }
 
 // =================================================================
-// Returns if the list is empty or not
+// Returns if the CircularList is empty or not
 //
-// @returns true if the list is empty, false otherwise.
+// @returns true if the CircularList is empty, false otherwise.
 // =================================================================
 template <class T>
-bool List<T>::empty() const {
+bool CircularList<T>::empty() const {
 	return (head == NULL);
 }
 
 // =================================================================
-// Returns the number of items in the list.
+// Determines if an item is in the CircularList.
 //
-// @returns size, the number of items in the list.
+// @param val, the searched element
+// @returns true if val is in the CircularList, false otherwise
 // =================================================================
 template <class T>
-uint List<T>::length() const {
-	return size;
-}
-
-// =================================================================
-// Determines if an item is in the list.
-//
-// @returns true if val is in the list, false otherwise
-// =================================================================
-template <class T>
-bool List<T>::contains(T val) const {
+bool CircularList<T>::contains(T val) const {
 	Node<T> *p;
 
+	if (empty()) {
+		return false;
+	}
+
 	p = head;
-	while (p != NULL) {
-		if(p->value == val) {
+	do {
+		if (p->value == val) {
 			return true;
 		}
 		p = p->next;
-	}
+	} while (p != head);
 	return false;
 }
 
 // =================================================================
-// Remove all items from the list.
+// Remove all items from the CircularList.
 // =================================================================
 template <class T>
-void List<T>::clear() {
-	Node<T> *p, *q;
+void CircularList<T>::clear() {
+	Node<T> *q, *p;
 
-	p = head;
-	while (p != NULL){
-		q = p->next;
-		delete p;
-		p = q;
+	if (empty()) {
+		return;
 	}
 
+	p = head->next;
+	while (p != head) {
+		q = p->next;
+		delete(p);
+		p = q;
+	}
+	delete head;
 	head = NULL;
-	size = 0;
 }
 
 // =================================================================
-// String representation of the elements in the list.
+// String representation of the elements in the CircularList.
 //
-// @returns a string containing all the elements of the list.
+// @returns a string containing all the elements of the CircularList.
 // =================================================================
 template <class T>
-std::string List<T>::toString() const {
+std::string CircularList<T>::toString() const {
 	std::stringstream aux;
 	Node<T> *p;
 
-	p = head;
-	aux << "[";
-	while (p != NULL) {
-		aux << p->value;
-		if (p->next != NULL) {
-			aux << ", ";
-		}
-		p = p->next;
+	if (empty()) {
+		aux << "[]";
+	} else {
+		aux << "[";
+		p = head;
+		do {
+			aux << p->value;
+			if (p->next != head) {
+				aux << ", ";
+			}
+			p = p->next;
+		} while (p != head);
+		aux << "]";
 	}
-	aux << "]";
 	return aux.str();
 }
 
 // =================================================================
-// Returns the first item in the list.
+// Add an item to the beginning of the CircularList. Increase the size of
+// the CircularList.
 //
-// @returns the object T at the beginning of the list.
-// @throws NoSuchElement, if the list is empty.
+// @param val, the elemento to be inserted.
 // =================================================================
 template <class T>
-T List<T>::front() const {
-	if (empty()) {
-		throw NoSuchElement();
-	}
-
-	return head->value;
-}
-
-// =================================================================
-// Returns the last item in the list.
-//
-// @returns the object T at the end of the list.
-// @throws NoSuchElement, if the list is empty.
-// =================================================================
-template <class T>
-T List<T>::last() const {
+void CircularList<T>::push_back(T val) {
 	Node<T> *p;
 
+	p = new Node<T>(val);
 	if (empty()) {
-		throw NoSuchElement();
+		head = p;
+	} else {
+		tail->next = p;
 	}
-
-	p = head;
-	while (p->next != NULL) {
-		p = p->next;
-	}
-	return p->value;
+	tail = p;
+	tail->next = head;
 }
 
 // =================================================================
-// Returns the element that is in the position indicated by index.
+// Delete the item at the beginning of the CircularList.
 //
-// @returns the element in index
-// @throws IndexOutOfBounds, if index >= size.
+// @returns the element that was at the beginning of the CircularList.
+// @throws NoSuchElement if the CircularList is empty
 // =================================================================
 template <class T>
-T List<T>::get(uint index) const {
-	T aux;
-
-	// TO DO
-	return aux;
-}
-
-// =================================================================
-// Add an item to the beginning of the list. Increase the size of
-// the list.
-// =================================================================
-template <class T>
-void List<T>::push_front(T val) {
-	Node<T> *q;
-
-	q = new Node<T>(val);
-	q->next = head;
-	head = q;
-	size++;
-}
-
-// =================================================================
-// Add an item to the end of the list. Increase the size of
-// the list.
-// =================================================================
-template <class T>
-void List<T>::push_back(T val) {
-	Node<T> *p, *q;
-
-	if (empty()) {
-		push_front(val);
-		return;
-	}
-
-	p = head;
-	while (p->next != NULL) {
-		p = p->next;
-	}
-
-	q = new Node<T>(val);
-	q->next = p->next;
-	p->next = q;
-	size++;
-}
-
-// =================================================================
-// Add an element in index (0 <= index <= size). The element that
-// was in that position is shifted to the right.
-//
-// @throws IndexOutOfBounds, if index > size.
-// =================================================================
-template <class T>
-void List<T>::insert_at(T val, uint index) {
-}
-
-// =================================================================
-// Delete the item at the beginning of the list.
-//
-// @returns the element that was at the beginning of the list.
-// @throws NoSuchElement if the list is empty
-// =================================================================
-template <class T>
-T List<T>::pop_front() {
+T CircularList<T>::pop_front() {
 	T val;
 	Node<T> *p;
 
@@ -297,73 +210,17 @@ T List<T>::pop_front() {
 	}
 
 	p = head;
-
-	head = p->next;
+	if (head == tail) {
+		head = NULL;
+		tail = NULL;
+	} else {
+		head = p->next;
+		tail->next = p->next;
+	}
 	val = p->value;
 
 	delete p;
-	size--;
-	return val;
-}
-
-// =================================================================
-// Delete the item at the end of the list.
-//
-// @returns the element that was at the end of the list.
-// @throws NoSuchElement if the list is empty
-// =================================================================
-template <class T>
-T List<T>::pop_back() {
-	Node<T> *p, *q;
-	T val;
-
-	if (empty()) {
-		throw NoSuchElement();
-	}
-
-	if (size == 1) {
-		return pop_front();
-	}
-
-	q = NULL;
-	p = head;
-	while (p->next != NULL) {
-		q = p;
-		p = p->next;
-	}
-
-	q->next = p->next;
-	val = p->value;
-
-	delete p;
-	size--;
 
 	return val;
 }
-
-// =================================================================
-// Delete the element found in index (0 <= index <size).
-//
-// @returns the element that was in index.
-// @throws IndexOutOfBounds, if index >= size.
-// =================================================================
-template <class T>
-T List<T>::remove_at(uint index) {
-	T aux;
-	// TO DO
-	return aux;
-}
-
-// =================================================================
-// Returns the position of an item in the list.
-//
-// @returns the position of an item in the list, -1 otherwise.
-// @throws IndexOutOfBounds, if index >= size.
-// =================================================================
-template <class T>
-long int List<T>::indexOf(T val) const {
-	// TO DO
-	return -1;
-}
-
-#endif /* LIST_H */
+#endif /* CircularList_H */
