@@ -16,11 +16,8 @@
 #include <string>
 #include <sstream>
 #include "exception.h"
+#include "header.h"
 #include "queue.h"
-
-using namespace std;
-
-typedef unsigned int uint;
 
 template <class T> class PriorityQueue;
 
@@ -33,7 +30,7 @@ private:
 	Node(T);
 	Node(T, Node<T>*, Node<T>*);
 
-	T	    value;
+	T	    	value;
 	Node<T> *previous;
 	Node<T> *next;
 
@@ -60,28 +57,28 @@ template <class T>
 Node<T>::Node(T val, Node *prev, Node* nxt)
 	: value(val), previous(prev), next(nxt) {}
 
-	// =================================================================
+// =================================================================
 // Definition of the PriorityQueue class
 // =================================================================
-	template <class T>
-	class PriorityQueue : public Queue<T>{
-	private:
-		Node<T> *head;
-		Node<T> *tail;
+template <class T>
+class PriorityQueue : public Queue<T>{
+private:
+	Node<T> *head;
+	Node<T> *tail;
 
-	public:
-		PriorityQueue();
-		~PriorityQueue();
+public:
+	PriorityQueue();
+	~PriorityQueue();
 
-		bool contains(T) const;
+	bool contains(T) const;
 
-		void enqueue(T);
-		void dequeue();
-		T front() const;
-		bool empty() const;
-		void clear();
-		string toString() const;
-	};
+	void enqueue(T);
+	void dequeue();
+	T front() const;
+	bool empty() const;
+	void clear();
+	std::string toString() const;
+};
 
 	// =================================================================
 	// Constructor. Initializes both instance variables to NULL.
@@ -115,7 +112,7 @@ bool PriorityQueue<T>::contains(T val) const {
 		p = p->next;
 	}
 	return false;
-}
+	}
 
 // =================================================================
 // Returns whether the queue is empty or not.
@@ -134,40 +131,40 @@ bool PriorityQueue<T>::empty() const {
 // =================================================================
 template <class T>
 void PriorityQueue<T>::enqueue(T val) {
-    Node<T> *p, *q, *new_link;
+	Node<T> *p, *q, *new_link;
 
-		new_link = new Node<T>(val);
-		if (empty()) {
-			head = new_link;
-			tail = new_link;
-			return;
-    }
+	new_link = new Node<T>(val);
+	if (empty()) {
+		head = new_link;
+		tail = new_link;
+		return;
+	}
 
-		if (val <= head->value) {
-			new_link->next = head;
-			head->previous = new_link;
-			head = new_link;
-			return;
-		}
+	if (val <= head->value) {
+		new_link->next = head;
+		head->previous = new_link;
+		head = new_link;
+		return;
+	}
 
-		if (val >= tail->value) {
-			new_link->previous = tail;
-      tail->next= new_link;
-      tail = new_link;
-			return;
-		}
+	if (val >= tail->value) {
+		new_link->previous = tail;
+		tail->next= new_link;
+		tail = new_link;
+		return;
+	}
 
-		p = head;
-		while (p != NULL && p->value < val) {
-			p = p->next;
-		}
+	p = head;
+	while (p != NULL && p->value < val) {
+		p = p->next;
+	}
 
-		q = p->previous;
-		new_link->next = p;
-		new_link->previous = q;
+	q = p->previous;
+	new_link->next = p;
+	new_link->previous = q;
 
-		q->next = new_link;
-		p->previous = new_link;
+	q->next = new_link;
+	p->previous = new_link;
 }
 
 // =================================================================
@@ -191,22 +188,23 @@ T PriorityQueue<T>::front() const {
 // =================================================================
 template <class T>
 void PriorityQueue<T>::dequeue() {
-    Node<T> *p;
+	Node<T> *p;
+	T val;
+	
+	if (empty()) {
+		throw NoSuchElement();
+	}
 
-    if (empty()) {
-        throw NoSuchElement();
-    }
-
-    p = head;
-    val = p->value;
-    if (head == tail) {
-        head = NULL;
-        tail = NULL;
-    } else {
-        head = p->next;
-        p->next->previous = NULL;
-    }
-    delete p;
+	p = head;
+	val = p->value;
+	if (head == tail) {
+		head = NULL;
+		tail = NULL;
+	} else {
+		head = p->next;
+		p->next->previous = NULL;
+	}
+	delete p;
 }
 
 // =================================================================
@@ -232,7 +230,7 @@ void PriorityQueue<T>::clear() {
 // @return an string with the representation of the queue.
 // =================================================================
 template <class T>
-string PriorityQueue<T>::toString() const {
+std::string PriorityQueue<T>::toString() const {
 	std::stringstream aux;
 	Node<T> *p;
 
