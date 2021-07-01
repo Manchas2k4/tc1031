@@ -2,8 +2,8 @@
 //
 // File: recursion01.cpp
 // Author: Pedro Perez
-// Description: This file contains the code that takes a string 
-//				(which represents an integer) as an argument and 
+// Description: This file contains the code that takes a string
+//				(which represents an integer) as an argument and
 //				returns its value.
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
@@ -14,9 +14,15 @@
 #include <iostream>
 #include <cstring>
 
-using namespace std;
-
-int str2dec(const string &str, int n) {
+// =================================================================
+// Converts, recursively, a string number to its integer equivalent.
+//
+// @param str, the string containing the number
+// @param n, the current position in the string (read from right to
+//					 left)
+// @return the integer equivalent of str.
+// =================================================================
+int str2dec(const std::string &str, int n) {
 	if (n == 1) {
 		return str[0] - '0';
 	} else {
@@ -25,8 +31,8 @@ int str2dec(const string &str, int n) {
 }
 
 int main(int argc, char* argv[]) {
-	string input;
-	cin >> input;
-	cout << str2dec(input, input.size()) << "\n";
+	std::string input;
+	std::cin >> input;
+	std::cout << str2dec(input, input.size()) << "\n";
 	return 0;
 }

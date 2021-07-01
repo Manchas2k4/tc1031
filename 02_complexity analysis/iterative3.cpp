@@ -2,8 +2,8 @@
 //
 // File: iterative.cpp
 // Author: Pedro Perez
-// Description: This file implements the solution for problem 664a 
-//				of Codeforces site. The complete description of the 
+// Description: This file implements the solution for problem 664a
+//				of Codeforces site. The complete description of the
 //				problem can be found in the following link:
 //				https://codeforces.com/problemset/problem/664/A
 //
@@ -15,16 +15,14 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 int main(int argc, char* argv[]) {
-	string a, b;
-	
-	cin >> a >> b;
+	std::string a, b;
+
+	std::cin >> a >> b;
 	if (a == b) {
-		cout << a << "\n";
+		std::cout << a << "\n";
 	} else {
-		cout << "1\n";
+		std::cout << "1\n";
 	}
 	return 0;
 }

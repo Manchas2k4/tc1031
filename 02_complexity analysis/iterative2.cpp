@@ -2,8 +2,8 @@
 //
 // File: iterative.cpp
 // Author: Pedro Perez
-// Description: This file implements the solution for problem 699b 
-//				of Codeforces site. The complete description of the 
+// Description: This file implements the solution for problem 699b
+//				of Codeforces site. The complete description of the
 //				problem can be found in the following link:
 //				https://codeforces.com/problemset/problem/699/b
 //
@@ -16,15 +16,13 @@
 #include <cstdio>
 #include <string>
 
-using namespace std;
-
 int main(int argc, char* argv[]) {
 	int n, m, i, j, col, row;
 	bool possible;
 	char c;
-	
+
 	scanf("%i %i", &n, &m);
-	
+
 	row = col = -1;
 	possible = true;
 	for (i = 0; i < n; i++) {
@@ -38,7 +36,7 @@ int main(int argc, char* argv[]) {
 				} else {
 					row = i;
 				}
-				
+
 				if (col != -1) {
 					if (col != j) {
 						possible = false;
@@ -50,10 +48,10 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	if (!possible) {
-		cout << "NO\n";
+		std::cout << "NO\n";
 	} else {
-		cout << "YES\n";
-		cout << (row + 1) << " " << (col + 1) << "\n";
+		std::cout << "YES\n";
+		std::cout << (row + 1) << " " << (col + 1) << "\n";
 	}
 	return 0;
 }

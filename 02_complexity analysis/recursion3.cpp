@@ -12,13 +12,20 @@
 // =================================================================
 #include <iostream>
 #include <cstring>
+#include "header.h"
 
-using namespace std;
+const std::string convertString = std::string("0123456789ABCDEF");
 
-const string convertString = string("0123456789ABCDEF");
-
-string toString(unsigned int n, unsigned int base) {
-	string result = "";
+// =================================================================
+// Converts, recursively, a number in decimal base to any other
+// base (maximum 16).
+//
+// @param n, the number to convert.
+// @param base, the new base.
+// @return a string with the number converted to the new base.
+// =================================================================
+std::string toString(uint n, uint base) {
+	std::string result = "";
 	if (n < base) {
 		result += convertString[n];
 	} else {
@@ -28,10 +35,9 @@ string toString(unsigned int n, unsigned int base) {
 }
 
 int main(int argc, char* argv[]) {
-	unsigned int number;
-	unsigned int base;
-	
-	cin >> number >> base;
-	cout << toString(number, base);
+	uint number, base;
+
+	std::cin >> number >> base;
+	std::cout << toString(number, base) << "\n";
 	return 0;
 }
