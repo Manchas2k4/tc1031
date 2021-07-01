@@ -37,8 +37,8 @@ private:
 };
 
 // =================================================================
-// Constructor. Initializes the value of the node. The variable next
-// is initialized to null.
+// Constructor. Initializes the value of the node. The variables
+// previous and next a initialized to null.
 //
 // @param val, stored value in the node.
 // =================================================================
