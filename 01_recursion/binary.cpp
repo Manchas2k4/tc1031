@@ -13,20 +13,34 @@
 
 #include "header.h"
 
-string iterativeDec2Bin(unsigned int number) {
-	string result = "";
+// =================================================================
+// Convert, iteratively, an integer to its binary representation
+// (in strings).
+//
+// @param number, number to convert
+// @return the string with the binary representation of the number.
+// =================================================================
+std::string iterativeDec2Bin(uint number) {
+	std::string result = "";
 	while (number > 0) {
-		result = to_string(number % 2) + result;
+		result = std::to_string(number % 2) + result;
 		number /= 2;
 	}
 	return result;
 }
 
-string recursiveDec2Bin(unsigned int number) {
+// =================================================================
+// Convert, recursively, an integer to its binary representation
+// (in strings).
+//
+// @param number, number to convert
+// @return the string with the binary representation of the number.
+// =================================================================
+std::string recursiveDec2Bin(uint number) {
 	if (number == 1) {
-		return to_string(number);
+		return std::to_string(number);
 	} else {
-		return recursiveDec2Bin(number / 2) + to_string(number % 2);
+		return recursiveDec2Bin(number / 2) + std::to_string(number % 2);
 	}
 }
 
@@ -35,13 +49,13 @@ int main(int argc, char* argv[]) {
 	double ms;
 
 	crono.start();
-	cout << "iterative dec2bin(1073741825): " << iterativeDec2Bin(1073741825) << "\n";
+	std::cout << "iterative dec2bin(1073741825): " << iterativeDec2Bin(1073741825) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 
 	crono.start();
-	cout << "recursive dec2bin(1073741825): " << recursiveDec2Bin(1073741825) << "\n";
+	std::cout << "recursive dec2bin(1073741825): " << recursiveDec2Bin(1073741825) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 	return 0;
 }

@@ -12,7 +12,12 @@
 
 #include "header.h"
 
-void iterativeReverse(string &s) {
+// =================================================================
+// Invert, iteratively, a string.
+//
+// @param s, the string to reverse.
+// =================================================================
+void iterativeReverse(std::string &s) {
 	char aux;
 	int i = 0;
 	int j = s.size() - 1;
@@ -27,7 +32,14 @@ void iterativeReverse(string &s) {
 	}
 }
 
-void recursiveReverseAux(string &s, int i, int j) {
+// =================================================================
+// Invert, recursively, a string.
+//
+// @param s, the string to reverse.
+// @param i, the lower limit.
+// @param j, the upper limit.
+// =================================================================
+void recursiveReverseAux(std::string &s, int i, int j) {
 	char aux;
 
 	if (i < j) {
@@ -38,14 +50,14 @@ void recursiveReverseAux(string &s, int i, int j) {
 	}
 }
 
-void recursiveReverse(string &s) {
+void recursiveReverse(std::string &s) {
 	recursiveReverseAux(s, 0, s.size() - 1);
 }
 
 int main(int argc, char* argv[]) {
-	string prueba("patito");
+	std::string prueba("patito");
 
 	iterativeReverse(prueba);
-	cout << "patito: " << prueba << "\n";
+	std::cout << "patito: " << prueba << "\n";
 	return 0;
 }

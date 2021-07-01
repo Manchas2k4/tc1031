@@ -87,7 +87,7 @@ void swap(T *A, int i, int j) {
 // @param j, an index in the vector.
 // =================================================================
 template <class T>
-void swap(vector<T> &v, int i, int j) {
+void swap(std::vector<T> &v, int i, int j) {
   T aux = v[i];
   v[i] = v[j];
   v[j] = aux;

@@ -16,8 +16,16 @@
 
 #include "header.h"
 
-unsigned int iterativeGCD(unsigned int a, unsigned int b) {
-	unsigned int aux;
+// =================================================================
+// Calculates, iteratively, the greatest common divisor of two
+// numbers.
+//
+// @param a, an integer number
+// @param b, an integer number
+// @return the greatest common divisor of a and b.
+// =================================================================
+uint iterativeGCD(uint a, uint b) {
+	uint aux;
 	while (b != 0) {
 		aux = a;
 		a = b;
@@ -26,7 +34,15 @@ unsigned int iterativeGCD(unsigned int a, unsigned int b) {
 	return a;
 }
 
-unsigned int recursiveGCD(unsigned int a, unsigned int b) {
+// =================================================================
+// Calculates, recursively, the greatest common divisor of two
+// numbers.
+//
+// @param a, an integer number
+// @param b, an integer number
+// @return the greatest common divisor of a and b.
+// =================================================================
+uint recursiveGCD(uint a, uint b) {
 	if (b == 0) {
 		return a;
 	} else {
@@ -39,23 +55,23 @@ int main(int argc, char* argv[]) {
 	double ms;
 
 	crono.start();
-	cout << "iterative gcd(389, 271): " << iterativeGCD(389, 271) << "\n";
+	std::cout << "iterative gcd(389, 271): " << iterativeGCD(389, 271) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 
 	crono.start();
-	cout << "recursive gcd(389, 271): " << recursiveGCD(389, 271) << "\n";
+	std::cout << "recursive gcd(389, 271): " << recursiveGCD(389, 271) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n\n\n";
+	std::cout << "time: " << ms << " ms\n\n\n";
 
 	crono.start();
-	cout << "iterative gcd(97835033, 45083758): " << iterativeGCD(97835033, 45083758) << "\n";
+	std::cout << "iterative gcd(97835033, 45083758): " << iterativeGCD(97835033, 45083758) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 
 	crono.start();
-	cout << "recursive gcd(97835033, 45083758): " << recursiveGCD(97835033, 45083758) << "\n";
+	std::cout << "recursive gcd(97835033, 45083758): " << recursiveGCD(97835033, 45083758) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 	return 0;
 }

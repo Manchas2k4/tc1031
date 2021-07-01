@@ -16,13 +16,12 @@
 #include <vector>
 
 // =================================================================
-// Performs a sequential search for an element within an array.
+// Performs a sequential search for an element within a vector.
 //
-// @param A, an array of T elements.
-// @param size, the number of elements in the array.
-// @param key, the search element.
+// @param A, a vector of T elements.
+// @param key, the element to search.
 // @return the index of the searched element, -1 in case the element
-//		   is not found in the array.
+//		   is not found in the vector.
 // =================================================================
 template <class T>
 int sequentialSearch(const std::vector<T> &v, T key) {
@@ -35,13 +34,12 @@ int sequentialSearch(const std::vector<T> &v, T key) {
 }
 
 // =================================================================
-// Performs a binary search for an element within an array.
+// Performs a binary search for an element within a vector
 //
-// @param A, an array of T elements.
-// @param size, the number of elements in the array.
-// @param key, the search element.
+// @param A, a vector of T elements.
+// @param key, the element to search.
 // @return the index of the searched element, -1 in case the element
-//		   is not found in the array.
+//		   is not found in the vector.
 // =================================================================
 template <class T>
 int binarySearch(const std::vector<T> &v, T key) {
@@ -63,13 +61,14 @@ int binarySearch(const std::vector<T> &v, T key) {
 }
 
 // =================================================================
-// Performs a binary search for an element within an array.
+// Performs a binary search for an element within a vector
 //
-// @param A, an array of T elements.
-// @param size, the number of elements in the array.
-// @param key, the search element.
+// @param A, a vector of T elements.
+// @param low, lower limit of the search.
+// @param high, upper limit of the search.
+// @param key, the element to search.
 // @return the index of the searched element, -1 in case the element
-//		   is not found in the array.
+//		   is not found in the vector.
 // =================================================================
 template <class T>
 int binaryRSearch(const std::vector<T> &v, int low, int high, T key) {

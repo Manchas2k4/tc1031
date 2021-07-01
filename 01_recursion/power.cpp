@@ -1,17 +1,24 @@
 // =================================================================
 //
-// File: factorial.cpp 
+// File: factorial.cpp
 // Author: Pedro Perez
 // Description: This file contains the implementation iterative and
-//				and recursive of a function of x raised to the nth 
+//				and recursive of a function of x raised to the nth
 //				power.
 //
-// Copyright (c) 2020 by Tecnologico de Monterrey.  
-// All Rights Reserved. May be reproduced for any non-commercial 
+// Copyright (c) 2020 by Tecnologico de Monterrey.
+// All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
 // =================================================================
 #include "header.h"
 
+// =================================================================
+// Calculates, iteratively, x to the power n.
+//
+// @param x, the base number.
+// @param n, the power number.
+// @return x to n.
+// =================================================================
 double iterativePower(double x, int n) {
 	if (n < 0) {
 		return iterativePower(1/x, -n);
@@ -24,6 +31,13 @@ double iterativePower(double x, int n) {
 	}
 }
 
+// =================================================================
+// Calculates, recursively, x to the power n.
+//
+// @param x, the base number.
+// @param n, the power number.
+// @return x to n.
+// =================================================================
 double recursivePower(double x, int n) {
 	if (n < 0) {
 		return recursivePower(1/x, -n);
@@ -42,15 +56,15 @@ double recursivePower(double x, int n) {
 int main(int argc, char* argv[]) {
 	Chronometer crono;
 	double ms;
-	
+
 	crono.start();
-	cout << "iterative power(2, 1000): " << iterativePower(2, 1000) << "\n";
+	std::cout << "iterative power(2, 1000): " << iterativePower(2, 1000) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
-	
+	std::cout << "time: " << ms << " ms\n";
+
 	crono.start();
-	cout << "recursive power(2, 1000): " << recursivePower(2, 1000) << "\n";
+	std::cout << "recursive power(2, 1000): " << recursivePower(2, 1000) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 	return 0;
 }

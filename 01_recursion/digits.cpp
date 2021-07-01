@@ -13,8 +13,15 @@
 
 #include "header.h"
 
-unsigned int iterativeSumDigits(unsigned int number) {
-	unsigned int acum = 0;
+// =================================================================
+// Performs, iteratively, the sum of all the digits that
+// make up a whole number.
+//
+// @param number, number whose digits are to be added.
+// @return the sum of the digits of a number.
+// =================================================================
+uint iterativeSumDigits(uint number) {
+	uint acum = 0;
 	while (number > 0) {
 		acum += (number % 10);
 		number /= 10;
@@ -22,7 +29,14 @@ unsigned int iterativeSumDigits(unsigned int number) {
 	return acum;
 }
 
-unsigned int recursiveSumDigits(unsigned int number) {
+// =================================================================
+// Performs, recursively, the sum of all the digits that
+// make up a whole number.
+//
+// @param number, number whose digits are to be added.
+// @return the sum of the digits of a number.
+// =================================================================
+uint recursiveSumDigits(uint number) {
 	if (number == 0) {
 		return 0;
 	} else {
@@ -35,13 +49,13 @@ int main(int argc, char* argv[]) {
 	double ms;
 
 	crono.start();
-	cout << "iterativeSumDigits(123456): " << iterativeSumDigits(123456) << "\n";
+	std::cout << "iterativeSumDigits(123456): " << iterativeSumDigits(123456) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 
 	crono.start();
-	cout << "recursiveSumDigits(123456): " << recursiveSumDigits(123456) << "\n";
+	std::cout << "recursiveSumDigits(123456): " << recursiveSumDigits(123456) << "\n";
 	ms = crono.stop();
-	cout << "time: " << ms << " ms\n";
+	std::cout << "time: " << ms << " ms\n";
 	return 0;
 }
