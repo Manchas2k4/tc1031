@@ -14,8 +14,7 @@
 #include <string>
 #include <sstream>
 #include "exception.h"
-
-typedef unsigned int uint;
+#include "header.h"
 
 template <class T> class List;
 
@@ -100,7 +99,7 @@ List<T>::List() :head(NULL), size(0) {
 // =================================================================
 template <class T>
 List<T>::~List() {
-    clear();
+	clear();
 }
 
 // =================================================================
@@ -279,6 +278,7 @@ void List<T>::push_back(T val) {
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
+	// TO DO
 }
 
 // =================================================================
