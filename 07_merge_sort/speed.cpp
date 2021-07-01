@@ -13,8 +13,6 @@
 #include "header.h"
 #include "merge.h"
 
-using namespace std;
-
 void fillArray(int *A, int size) {
   for (int i = 0; i < size - 1; i++) {
     A[i] = size - i + 1;
@@ -29,13 +27,13 @@ int main(int argc, char* argv[]) {
   double ms;
 
   for (int i = 0; i < 5; i++) {
-    cout << "Starting size = " << size <<  "...";
+    std::cout << "Starting size = " << size <<  "...";
     arr = new int[size];
     fillArray(arr, size);
     c.start();
     mergeSort(arr, size);
     ms = c.stop();
-    cout<< " time = " << ms << " ms\n";
+    std::cout<< " time = " << ms << " ms\n";
     delete [] arr;
     size *= 10;
   }

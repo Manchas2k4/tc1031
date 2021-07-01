@@ -2,11 +2,11 @@
 //
 // File: main.cpp
 // Author: Pedro Perez
-// Description: This file contains the code to perform speed tests 
+// Description: This file contains the code to perform speed tests
 //				on the various sorting algorithms that we have seen.
 //
-// Copyright (c) 2020 by Tecnologico de Monterrey.  
-// All Rights Reserved. May be reproduced for any non-commercial 
+// Copyright (c) 2020 by Tecnologico de Monterrey.
+// All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
 // =================================================================
 
@@ -23,7 +23,7 @@ using namespace std;
 
 const int DISPLAY = 100;
 const int TOP_VALUE = 10000;
-const int SIZE = 50000; //1e6
+const int SIZE = 75000;
 
 void theWorseCase(int *array, int size) {
 	int i;
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 	Chronometer c;
 	double ms;
 	int *source = new int[SIZE];
-	
+
 	theWorseCase(source, SIZE);
 	cout << "BUBBLE SORT\n";
 	displayArray("before", source);
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 	ms = c.stop();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
-	
+
 	theWorseCase(source, SIZE);
 	cout << "\n\nSELECTION SORT\n";
 	displayArray("before", source);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 	ms = c.stop();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
-	
+
 	theWorseCase(source, SIZE);
 	cout << "\n\nINSERTION SORT\n";
 	displayArray("before", source);
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
 	ms = c.stop();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
-	
+
 	theWorseCase(source, SIZE);
 	cout << "\n\nMERGE SORT\n";
 	displayArray("before", source);
@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
 	ms = c.stop();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
-	
+
 	theWorseCase(source, SIZE);
 	cout << "\n\nQUICK SORT\n";
 	displayArray("before", source);
@@ -93,7 +93,6 @@ int main(int argc, char* argv[]) {
 	ms = c.stop();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
-	
+
 	delete [] source;
-	
 }
