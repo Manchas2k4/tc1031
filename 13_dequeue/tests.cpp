@@ -11,95 +11,89 @@
 // =================================================================
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.h"
-#include "list.h"
+#include "stack.h"
 
-/*
-T    get(uint) const;
-
-void insert_at(T, uint);
-
-T    remove_at(uint);
-
-long int  indexOf(T) const;
-*/
-
-TEST_CASE( "Testing list implementation", "[List]" ) {
-	List<int> lst1, lst2, lst3;
-	for (int i = 1; i <= 10; i++) {
-		lst2.push_back(i);
-		lst3.push_back(i);
+TEST_CASE( "Testing vector implementation", "[StackVector]" ) {
+	StackVector<int> s1(5), s2(5);
+	for (int i = 0; i < 3; i++) {
+		s2.push(i);
 	}
 
-	SECTION( "1: Testing size of a list." ) {
-		REQUIRE(lst1.length() == 0);
-		REQUIRE(lst2.length() == 10);
+	SECTION( "1: Pushing an element at the top." ) {
+		s1.push(0);
+		REQUIRE(strcmp(s1.toString().c_str(), "[0]") == 0);
+		s2.push(3);
+		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1, 2, 3]") == 0);
 	}
 
-	SECTION( "2: Testing if list is empty." ) {
-		REQUIRE(lst1.empty() == true);
-		REQUIRE(lst2.empty() == false);
+	SECTION( "2: Testing overflow." ) {
+		s2.push(3);
+		s2.push(4);
+		REQUIRE_THROWS_AS(s2.push(5), Overflow);
 	}
 
-	SECTION( "3: Testing if a element is in a list." ) {
-		REQUIRE(lst2.contains(100) == false);
-		REQUIRE(lst2.contains(5) == true);
+	SECTION( "3: Checking the top" ) {
+		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+
+		int x = s2.top();
+		REQUIRE(x == 2);
+		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1, 2]") == 0);
 	}
 
-	SECTION( "4: Testing to clear a list." ) {
-		lst3.clear();
-		REQUIRE(lst3.length() == 0);
-		REQUIRE(strcmp(lst3.toString().c_str(), "[]") == 0);
+	SECTION( "4: Popping out the top" ) {
+		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+
+		s2.pop();
+		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1]") == 0);
 	}
 
-	SECTION( "5: Getting the first element." ) {
-		REQUIRE_THROWS_AS(lst1.front(), NoSuchElement);
-		REQUIRE(lst2.front() == 1);
+	SECTION( "5: Testing if the stack is empty." ) {
+		REQUIRE(s1.empty() == true);
+		REQUIRE(s2.empty() == false);
 	}
 
-	SECTION( "6: Getting the last element." ) {
-		REQUIRE_THROWS_AS(lst1.last(), NoSuchElement);
-		REQUIRE(lst2.last() == 10);
+	SECTION( "6: Testing to clear a stack." ) {
+		s2.clear();
+		REQUIRE(strcmp(s2.toString().c_str(), "[]") == 0);
+	}
+}
+
+TEST_CASE( "Testing list implementation", "[StackList]" ) {
+	StackList<int> s1, s2;
+	for (int i = 0; i < 3; i++) {
+		s2.push(i);
 	}
 
-	SECTION( "7: Pushing at the front." ) {
-		lst1.push_front(0);
-		REQUIRE(lst1.length() == 1);
-		REQUIRE(strcmp(lst1.toString().c_str(), "[0]") == 0);
-
-		lst2.push_front(0);
-		REQUIRE(lst2.length() == 11);
-		REQUIRE(strcmp(lst2.toString().c_str(), "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]") == 0);
+	SECTION( "1: Pushing an element at the top." ) {
+		s1.push(0);
+		REQUIRE(strcmp(s1.toString().c_str(), "[0]") == 0);
+		s2.push(3);
+		REQUIRE(strcmp(s2.toString().c_str(), "[3, 2, 1, 0]") == 0);
 	}
 
-	SECTION( "8: Pushing at the back." ) {
-		lst1.push_back(11);
-		REQUIRE(lst1.length() == 1);
-		REQUIRE(strcmp(lst1.toString().c_str(), "[11]") == 0);
+	SECTION( "2: Checking the top" ) {
+		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
 
-		lst2.push_back(11);
-		REQUIRE(lst2.length() == 11);
-		REQUIRE(strcmp(lst2.toString().c_str(), "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]") == 0);
+		int x = s2.top();
+		REQUIRE(x == 2);
+		std::cout << s2.toString() << "\n";
+		REQUIRE(strcmp(s2.toString().c_str(), "[2, 1, 0]") == 0);
 	}
 
-	SECTION( "9: Getting the front element." ) {
-		int x;
+	SECTION( "4: Popping out the top" ) {
+		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
 
-		REQUIRE_THROWS_AS(lst1.pop_front(), NoSuchElement);
-
-		x = lst2.pop_front();
-		REQUIRE(x == 1);
-		REQUIRE(lst2.length() == 9);
-		REQUIRE(strcmp(lst2.toString().c_str(), "[2, 3, 4, 5, 6, 7, 8, 9, 10]") == 0);
+		s2.pop();
+		REQUIRE(strcmp(s2.toString().c_str(), "[1, 0]") == 0);
 	}
 
-	SECTION( "10: Getting the last element." ) {
-		int x;
+	SECTION( "5: Testing if the stack is empty." ) {
+		REQUIRE(s1.empty() == true);
+		REQUIRE(s2.empty() == false);
+	}
 
-		REQUIRE_THROWS_AS(lst1.pop_back(), NoSuchElement);
-
-		x = lst2.pop_back();
-		REQUIRE(x == 10);
-		REQUIRE(lst2.length() == 9);
-		REQUIRE(strcmp(lst2.toString().c_str(), "[1, 2, 3, 4, 5, 6, 7, 8, 9]") == 0);
+	SECTION( "6: Testing to clear a stack." ) {
+		s2.clear();
+		REQUIRE(strcmp(s2.toString().c_str(), "[]") == 0);
 	}
 }

@@ -19,10 +19,7 @@
 #include <string>
 #include <list>
 #include "exception.h"
-
-using namespace std;
-
-typedef unsigned int uint;
+#include "header.h"
 
 // =================================================================
 // Definition of the Queue interface.
@@ -30,12 +27,12 @@ typedef unsigned int uint;
 template <class T>
 class Queue {
 public:
-    virtual void enqueue(T) = 0;
-    virtual T front() const = 0;
-    virtual void dequeue() = 0;
-    virtual bool empty() const = 0;
-    virtual void clear() = 0;
-    virtual string toString() const = 0;
+  virtual void enqueue(T) = 0;
+  virtual T front() const = 0;
+  virtual void dequeue() = 0;
+  virtual bool empty() const = 0;
+  virtual void clear() = 0;
+  virtual std::string toString() const = 0;
 };
 
 // =================================================================
@@ -44,8 +41,8 @@ public:
 template <class T>
 class QueueVector : public Queue<T> {
 private:
-    uint head, tail, size, counter;
-    T *data;
+  uint head, tail, size, counter;
+  T *data;
 
 public:
   QueueVector(uint);
@@ -55,7 +52,7 @@ public:
   void dequeue();
   bool empty() const;
   void clear();
-  string toString() const;
+  std::string toString() const;
   bool full() const;
 };
 
@@ -136,7 +133,6 @@ T QueueVector<T>::front() const {
   return data[head];
 }
 
-
 // =================================================================
 // Removes the item at the front of the queue.
 //
@@ -167,8 +163,8 @@ void QueueVector<T>::clear() {
 // @return an string with the representation of the queue.
 // =================================================================
 template <class T>
-string QueueVector<T>::toString() const {
-  stringstream aux;
+std::string QueueVector<T>::toString() const {
+  std::stringstream aux;
   int i;
 
   aux << "[";
@@ -191,15 +187,15 @@ string QueueVector<T>::toString() const {
 template <class T>
 class QueueList : public Queue<T> {
 private:
-	list<T> data;
+  std::list<T> data;
 
 public:
-	void enqueue(T);
-	void dequeue();
-	T front() const;
-	bool empty() const;
-	void clear();
-	string toString() const;
+  void enqueue(T);
+  void dequeue();
+  T front() const;
+  bool empty() const;
+  void clear();
+  std::string toString() const;
 };
 
 
@@ -264,21 +260,20 @@ void QueueList<T>::clear() {
 // @return an string with the representation of the queue.
 // =================================================================
 template <class T>
-string QueueList<T>::toString() const {
-	stringstream aux;
-	typename list<T>::const_iterator itr = data.begin();
+std::string QueueList<T>::toString() const {
+  std::stringstream aux;
+  typename std::list<T>::const_iterator itr = data.begin();
 
-	aux << "[";
-	if (!data.empty()) {
-		aux << (*itr);
-		itr++;
-		while (itr != data.end()) {
-			aux << ", " << (*itr);
-			itr++;
-		}
-	}
-	aux << "]";
-	return aux.str();
+  aux << "[";
+  if (!data.empty()) {
+    aux << (*itr);
+    itr++;
+    while (itr != data.end()) {
+      aux << ", " << (*itr);
+      itr++;
+    }
+  }
+  aux << "]";
+  return aux.str();
 }
-
 #endif /* QUEUE_H */
