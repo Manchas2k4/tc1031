@@ -15,8 +15,7 @@
 #include <string>
 #include <sstream>
 #include "exception.h"
-
-typedef unsigned int uint;
+#include "header.h"
 
 template <class T> class DoubleLinkedList;
 
@@ -101,7 +100,7 @@ DoubleLinkedList<T>::DoubleLinkedList() :head(NULL), size(0) {
 // =================================================================
 template <class T>
 DoubleLinkedList<T>::~DoubleLinkedList() {
-    clear();
+	clear();
 }
 
 // =================================================================
@@ -306,6 +305,7 @@ void DoubleLinkedList<T>::push_back(T val) {
 // =================================================================
 template <class T>
 void DoubleLinkedList<T>::insert_before(T lookingFor, T newVal) {
+	// TO DO
 }
 
 // =================================================================
@@ -316,6 +316,7 @@ void DoubleLinkedList<T>::insert_before(T lookingFor, T newVal) {
 // =================================================================
 template <class T>
 void DoubleLinkedList<T>::insert_after(T lookingFor, T newVal) {
+	// TO DO
 }
 
 // =================================================================
