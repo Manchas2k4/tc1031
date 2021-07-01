@@ -15,21 +15,21 @@
 
 int output[] = {1, 2, 16, 24, 29, 30, 42, 45, 49, 56, 63, 76, 77, 82, 89, 92, 93, 93, 94, 94};
 
-TEST_CASE( "1: Worst scenario", "[bubbleSort]" ) {
+TEST_CASE( "1: Worst scenario", "[selectionSort]" ) {
   int input[] = {94, 94, 93, 93, 92, 89, 82, 77, 76, 63, 56, 49, 45, 42, 30, 29, 24, 16, 2, 1};
 
 	selectionSort(input, 20);
 	REQUIRE(strcmp(arr2str(input, 20).c_str(), arr2str(output, 20).c_str()) == 0);
 }
 
-TEST_CASE( "2: Average scenario", "[bubbleSort]" ) {
+TEST_CASE( "2: Average scenario", "[selectionSort]" ) {
   int input[] = {92, 1, 76, 89, 94, 30, 16, 24, 77, 93, 45, 56, 94, 93, 63, 29, 42, 82, 49, 2};
 
 	selectionSort(input, 20);
 	REQUIRE(strcmp(arr2str(input, 20).c_str(), arr2str(output, 20).c_str()) == 0);
 }
 
-TEST_CASE( "3: Best scenario", "[bubbleSort]" ) {
+TEST_CASE( "3: Best scenario", "[selectionSort]" ) {
   int input[] = {1, 2, 16, 24, 29, 30, 42, 45, 49, 56, 63, 76, 77, 82, 89, 92, 93, 93, 94, 94};
 
 	selectionSort(input, 20);
