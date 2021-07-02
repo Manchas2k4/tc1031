@@ -1,9 +1,8 @@
 // =================================================================
 //
-// File: main.cpp
+// File: speed.cpp
 // Author: Pedro Perez
-// Description: This file contains the implementation of the
-//				bubble sort.
+// Description: In this file, we check the speed of the heap sort.
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
 // All Rights Reserved. May be reproduced for any non-commercial
@@ -24,18 +23,18 @@ void fillArray(int *A, int size) {
 
 int main(int argc, char* argv[]) {
   int *arr;
-  int size = 100000;
+  int size = 1000;
   Chronometer c;
   double ms;
 
-  for (int i = 0; i < 3; i++) {
-    cout << "Starting size = " << size <<  "...";
+  for (int i = 0; i < 5; i++) {
+    std::cout << "Starting size = " << size <<  "...";
     arr = new int[size];
     fillArray(arr, size);
     c.start();
     heapSort(arr, size);
     ms = c.stop();
-    cout<< " time = " << ms << " ms\n";
+    std::cout<< " time = " << ms << " ms\n";
     delete [] arr;
     size *= 10;
   }

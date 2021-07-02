@@ -1,6 +1,6 @@
 ﻿// =================================================================
 //
-// File: run_test.cpp
+// File: tests.cpp
 // Author: Pedro Perez
 // Description: This file implements various tests on the
 //				implemented code.

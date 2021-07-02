@@ -1,9 +1,8 @@
 // =================================================================
 //
-// File: main.cpp
+// File: speed.cpp
 // Author: Pedro Perez
-// Description: This file contains the implementation of the
-//				bubble sort.
+// Description: In this file, we check the speed of the merge sort.
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
 // All Rights Reserved. May be reproduced for any non-commercial
