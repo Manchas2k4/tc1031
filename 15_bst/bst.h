@@ -9,7 +9,6 @@
 // All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
 // =================================================================
-
 #ifndef BST_H
 #define BST_H
 

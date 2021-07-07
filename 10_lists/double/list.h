@@ -74,10 +74,10 @@ public:
 	void clear();
 	std::string toString() const;
 
-	T    				front() const;
-	T    				last() const;
-	std::string	before(T) const;
-	std::string	after(T) const;
+	T front() const;
+	T last() const;
+	T	before(T) const;
+	T after(T) const;
 
 	void push_front(T);
 	void push_back(T);
@@ -220,31 +220,28 @@ T DoubleLinkedList<T>::last() const {
 }
 
 // =================================================================
-// Returns the element that is in the position indicated by index.
+// Returns the value before the first occurrence if certain value.
 //
-// @returns the element in index
-// @throws IndexOutOfBounds, if index >= size.
+// @throws NoSuchelement, if val is not on the list.
 // =================================================================
 template <class T>
-std::string DoubleLinkedList<T>::before(T val) const {
-	std::stringstream result;
+T DoubleLinkedList<T>::before(T val) const {
+	T val;
 
 	// TO DO
-	return result.str();
+	return val;
 }
 
 // =================================================================
-// Returns the element that is in the position indicated by index.
+// Returns the value after the first occurrence of certain value.
 //
-// @returns the element in index
-// @throws IndexOutOfBounds, if index >= size.
+// @throws NoSuchelement, if val is not on the list.
 // =================================================================
 template <class T>
-std::string DoubleLinkedList<T>::after(T val) const {
-	std::stringstream result;
+T DoubleLinkedList<T>::after(T val) const {
+	T val;
 
-	// TO DO
-	return result.str();
+	return val;
 }
 
 // =================================================================
@@ -298,10 +295,9 @@ void DoubleLinkedList<T>::push_back(T val) {
 }
 
 // =================================================================
-// Add an element in index (0 <= index <= size). The element that
-// was in that position is shifted to the right.
+// Insert an element before the first occurrence of a certain value.
 //
-// @throws IndexOutOfBounds, if index > size.
+// @throws NoSuchelement, if lookingFor is not on the list.
 // =================================================================
 template <class T>
 void DoubleLinkedList<T>::insert_before(T lookingFor, T newVal) {
@@ -309,10 +305,9 @@ void DoubleLinkedList<T>::insert_before(T lookingFor, T newVal) {
 }
 
 // =================================================================
-// Add an element in index (0 <= index <= size). The element that
-// was in that position is shifted to the right.
+// Insert an element after the first occurrence of a certain value.
 //
-// @throws IndexOutOfBounds, if index > size.
+// @throws NoSuchelement, if lookingFor is not on the list.
 // =================================================================
 template <class T>
 void DoubleLinkedList<T>::insert_after(T lookingFor, T newVal) {

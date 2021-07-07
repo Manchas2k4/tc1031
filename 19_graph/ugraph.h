@@ -8,7 +8,6 @@
 #ifndef UGRAPH_H_
 #define UGRAPH_H_
 
-#include "exception.h"
 #include <sstream>
 #include <set>
 #include <map>
@@ -17,6 +16,8 @@
 #include <queue>
 #include <vector>
 #include <iostream>
+#include "exception.h"
+#include "header.h"
 
 /***********************************************************/
 /********************** UnweightedGraph ********************/
@@ -218,22 +219,6 @@ std::set<Vertex> UListGraph<Vertex>::getConnectionFrom(Vertex v) const {
 
 template <class Vertex>
 std::string UListGraph<Vertex>::toString() const {
-	/*
-	typename std::map<Vertex, std::set<Vertex> >::const_iterator it;
-	typename std::set<Vertex>::const_iterator j;
-
-	std::stringstream aux;
-
-	for (it = edges.begin(); it != edges.end(); it++) {
-		aux << it->first << "\t";
-		for (j = it->second.begin(); j != it->second.end(); j++) {
-			aux << (*j) << "\t";
-		}
-		aux << "\n";
-	}
-	aux << "\n";
-	return aux.str();
-	*/
 	std::stringstream aux;
 
 	typename std::set<Vertex>::iterator i;
