@@ -17,7 +17,7 @@
 #include <string>
 #include <sstream>
 
-typedef uint uint;
+typedef unsigned int uint;
 
 template <class T>
 class Vector {
