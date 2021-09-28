@@ -28,7 +28,7 @@ private:
 	Node(T);
 	Node(T, Node<T>*, Node<T>*);
 
-	T	    	value;
+	T	    value;
 	Node<T> *previous, *next;
 
 	friend class DoubleLinkedList<T>;
@@ -62,7 +62,7 @@ template <class T>
 class DoubleLinkedList {
 private:
 	Node<T> *head;
-	uint 		size;
+	uint 	size;
 
 public:
 	DoubleLinkedList();
@@ -76,7 +76,7 @@ public:
 
 	T front() const;
 	T last() const;
-	T	before(T) const;
+	T before(T) const;
 	T after(T) const;
 
 	void push_front(T);
@@ -253,7 +253,7 @@ void DoubleLinkedList<T>::push_front(T val) {
 	Node<T> *q, *p;
 
 	q = new Node<T>(val);
-	if (head == NULL) {
+	if (empty()) {
 		q->next = NULL;
 		q->previous = NULL;
 	} else {
@@ -369,7 +369,6 @@ T DoubleLinkedList<T>::pop_back() {
 
 	p = head;
 	while (p->next != NULL) {
-		q = p;
 		p = p->next;
 	}
 	q = p->previous;

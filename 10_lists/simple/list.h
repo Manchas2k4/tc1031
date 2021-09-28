@@ -64,6 +64,7 @@ private:
 
 public:
 	List();
+	List(const List<T>&);
 	~List();
 
 	uint  length() const;
@@ -133,7 +134,7 @@ bool List<T>::contains(T val) const {
 
 	p = head;
 	while (p != NULL) {
-		if(p->value == val) {
+		if (p->value == val) {
 			return true;
 		}
 		p = p->next;
@@ -243,6 +244,7 @@ void List<T>::push_front(T val) {
 	q = new Node<T>(val);
 	q->next = head;
 	head = q;
+	// head = new Node<T>(val, head);
 	size++;
 }
 
@@ -297,11 +299,12 @@ T List<T>::pop_front() {
 	}
 
 	p = head;
-
-	head = p->next;
 	val = p->value;
 
+	head = p->next;
+	p->next = NULL;
 	delete p;
+
 	size--;
 	return val;
 }
@@ -332,12 +335,13 @@ T List<T>::pop_back() {
 		p = p->next;
 	}
 
-	q->next = p->next;
 	val = p->value;
 
+	q->next = p->next;
+	p->next = NULL;
 	delete p;
-	size--;
 
+	size--;
 	return val;
 }
 
