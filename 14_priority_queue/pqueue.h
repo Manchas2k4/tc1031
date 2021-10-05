@@ -30,7 +30,7 @@ private:
 	Node(T);
 	Node(T, Node<T>*, Node<T>*);
 
-	T	    	value;
+	T	    value;
 	Node<T> *previous;
 	Node<T> *next;
 
@@ -70,8 +70,6 @@ public:
 	PriorityQueue();
 	~PriorityQueue();
 
-	bool contains(T) const;
-
 	void enqueue(T);
 	void dequeue();
 	T front() const;
@@ -95,24 +93,6 @@ PriorityQueue<T>::~PriorityQueue() {
 	clear();
 }
 
-// =================================================================
-// Determines if an item is in the PriorityQueue.
-//
-// @returns true if val is in the PriorityQueue, false otherwise
-// =================================================================
-template <class T>
-bool PriorityQueue<T>::contains(T val) const {
-	Node<T> *p;
-
-	p = head;
-	while (p != NULL) {
-		if (p->value == val) {
-			return true;
-		}
-		p = p->next;
-	}
-	return false;
-	}
 
 // =================================================================
 // Returns whether the queue is empty or not.
@@ -155,7 +135,10 @@ void PriorityQueue<T>::enqueue(T val) {
 	}
 
 	p = head;
-	while (p != NULL && p->value < val) {
+	while (p != NULL)
+	 	if (p->value >= val) {
+			break;
+		}
 		p = p->next;
 	}
 
@@ -189,14 +172,12 @@ T PriorityQueue<T>::front() const {
 template <class T>
 void PriorityQueue<T>::dequeue() {
 	Node<T> *p;
-	T val;
 	
 	if (empty()) {
 		throw NoSuchElement();
 	}
 
 	p = head;
-	val = p->value;
 	if (head == tail) {
 		head = NULL;
 		tail = NULL;
