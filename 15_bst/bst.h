@@ -38,6 +38,7 @@ private:
 
 	Node<T>* succesor();
 	void remove(T);
+
 	void removeChilds();
 
 	void inOrder(std::stringstream&) const;
@@ -163,7 +164,7 @@ void Node<T>::remove(T val) {
 			if (left->value == val) {
 				old = left;
 				succ = left->succesor();
-				if (succ != NULL) {
+				if (succ != NULL && (old->left != NULL || old->right != NULL)) {
 					succ->left = old->left;
 					succ->right = old->right;
 				}
@@ -178,7 +179,7 @@ void Node<T>::remove(T val) {
 			if (right->value == val) {
 				old = right;
 				succ = right->succesor();
-				if (succ != NULL) {
+				if (succ != NULL && (old->left != NULL || old->right != NULL)) {
 					succ->left = old->left;
 					succ->right = old->right;
 				}
@@ -343,7 +344,7 @@ void BST<T>::remove(T val) {
 	if (!empty()) {
 		if (val == root->value) {
 			Node<T> *succ = root->succesor();
-			if (succ != NULL) {
+			if (succ != NULL && (root->left != NULL || root->right != NULL)) {
 				succ->left = root->left;
 				succ->right = root->right;
 			}

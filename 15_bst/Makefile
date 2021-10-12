@@ -1,4 +1,4 @@
-all: tests.out
+all: clean tests.out
 
 tests.out:
 	g++ tests.cpp -o tests.out
