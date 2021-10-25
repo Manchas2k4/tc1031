@@ -211,7 +211,7 @@ T Heap<T>::remove() {
 	}
 
 	T aux = data[0];
-	data[0] = data[--count];
+	data[0] = data[--count]; // data[0] = data[count]; count--;
 	pushDown(0);
 	return aux;
 }
