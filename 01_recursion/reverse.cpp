@@ -55,9 +55,22 @@ void recursiveReverse(std::string &s) {
 }
 
 int main(int argc, char* argv[]) {
-	std::string prueba("patito");
+	Chronometer crono;
+	double ms;
+	std::string prueba1("En el caso de querer firmar (propiedades de autenticidad, integridad y no repudio), el emisor obtiene un hash del mensaje a firmar y lo");
+	std::string prueba2("En el caso de querer firmar (propiedades de autenticidad, integridad y no repudio), el emisor obtiene un hash del mensaje a firmar y lo");
+	
+	crono.start();
+	iterativeReverse(prueba1);
+	std::cout << "iterative reverse(prueba): " << prueba1 << "\n";
+	ms = crono.stop();
+	std::cout << "time: " << ms << " ms\n";
+	
+	crono.start();
+	recursiveReverse(prueba2);
+	std::cout << "recursive reverse(prueba): " << prueba2 << "\n";
+	ms = crono.stop();
+	std::cout << "time: " << ms << " ms\n";
 
-	iterativeReverse(prueba);
-	std::cout << "patito: " << prueba << "\n";
 	return 0;
 }

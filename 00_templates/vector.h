@@ -122,7 +122,7 @@ Vector<T>::Vector(const Vector<T> &source) {
 template <class T>
 Vector<T>::~Vector() {
 	delete [] data;
-	data = 0;
+	data = 0; //NULL o nullptr
 	size = 0;
 }
 

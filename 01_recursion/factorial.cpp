@@ -49,12 +49,12 @@ int main(int argc, char* argv[]) {
 	double ms;
 
 	crono.start();
-	std::cout << "iterative factorial(20): " << iterativeFactorial(20) << "\n";
+	std::cout << "iterative factorial(30): " << iterativeFactorial(30) << "\n";
 	ms = crono.stop();
 	std::cout << "time: " << ms << " ms\n";
 
 	crono.start();
-	std::cout << "recursive factorial(20): " << recursiveFactorial(20) << "\n";
+	std::cout << "recursive factorial(30): " << recursiveFactorial(30) << "\n";
 	ms = crono.stop();
 	std::cout << "time: " << ms << " ms\n";
 	return 0;
