@@ -18,8 +18,10 @@
 #include "quick.h"
 #include <iostream>
 #include <iomanip>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 const int DISPLAY = 100;
 const int TOP_VALUE = 10000;
@@ -31,6 +33,7 @@ void theWorseCase(int *array, int size) {
 	srand(time(0));
 	for (i = 0; i < size; i++) {
 		array[i] = (size - i);
+		//array[i] = rand() % TOP_VALUE;
 	}
 }
 
@@ -45,54 +48,66 @@ void displayArray(const char *text, int *array) {
 }
 
 int main(int argc, char* argv[]) {
-	Chronometer c;
-	double ms;
 	int *source = new int[SIZE];
+
+	// These variables are used to keep track of the execution time.
+	high_resolution_clock::time_point start, end;
+	double timeElapsed;
 
 	theWorseCase(source, SIZE);
 	cout << "BUBBLE SORT\n";
 	displayArray("before", source);
-	c.start();
+	start = high_resolution_clock::now();
 	bubbleSort(source, SIZE);
-	ms = c.stop();
+	end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
-	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
+	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
 	theWorseCase(source, SIZE);
 	cout << "\n\nSELECTION SORT\n";
 	displayArray("before", source);
-	c.start();
+	start = high_resolution_clock::now();
 	selectionSort(source, SIZE);
-	ms = c.stop();
+	end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
-	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
+	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
 	theWorseCase(source, SIZE);
 	cout << "\n\nINSERTION SORT\n";
 	displayArray("before", source);
-	c.start();
+	start = high_resolution_clock::now();
 	insertionSort(source, SIZE);
-	ms = c.stop();
+	end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
-	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
+	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
 	theWorseCase(source, SIZE);
 	cout << "\n\nMERGE SORT\n";
 	displayArray("before", source);
-	c.start();
+	start = high_resolution_clock::now();
 	mergeSort(source, SIZE);
-	ms = c.stop();
+	end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
-	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
+	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
 	theWorseCase(source, SIZE);
 	cout << "\n\nQUICK SORT\n";
 	displayArray("before", source);
-	c.start();
+	start = high_resolution_clock::now();
 	quickSort(source, SIZE);
-	ms = c.stop();
+	end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
-	cout << "avg time = " << setprecision(15) << ms << " ms" << endl;
+	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
 	delete [] source;
 }

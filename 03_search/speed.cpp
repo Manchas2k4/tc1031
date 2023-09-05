@@ -8,43 +8,59 @@
 // Copyright (c) 2020 by Tecnologico de Monterrey.
 // All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
-// =================================================================
+// =================================================================h"
+#include <chrono>
+#include <vector>
 #include "header.h"
 #include "search.h"
-#include <vector>
 
 const int SIZE = 1000000000;
 
+using namespace std;
+using namespace std::chrono;
+
 int main(int argc, char* argv[]) {
-  Chronometer c;
-	double ms;
   std::vector<int> v(SIZE);
   int result;
+
+  // These variables are used to keep track of the execution time.
+	high_resolution_clock::time_point start, end;
+	double timeElapsed;
 
   for (int i = 0; i < SIZE; i++) {
     v[i] = (i + 1);
   }
 
-  std::cout << "Starting sequential\n";
-  c.start();
+  cout << "Starting sequential\n";
+  
+  start = high_resolution_clock::now();
   result = sequentialSearch(v, 0);
-  ms = c.stop();
-  std::cout << "result = " << result << "\n";
-  std::cout << "time = " << ms << " ms\n";
+  end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
+
+  cout << "result = " << result << "\n";
+  cout << "time = " << timeElapsed << " ms\n";
 
   std::cout << "Starting binary\n";
-  c.start();
+  start = high_resolution_clock::now();
   result = binarySearch(v, 0);
-  ms = c.stop();
-  std::cout << "result = " << result << "\n";
-  std::cout << "time = " << ms << " ms\n";
+  end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
 
-  std::cout << "Starting binaryR\n";
-  c.start();
+  cout << "result = " << result << "\n";
+  cout << "time = " << timeElapsed << " ms\n";
+
+  cout << "Starting binaryR\n";
+  start = high_resolution_clock::now();
   result = binaryRSearch(v, 0, v.size(), 0);
-  ms = c.stop();
-  std::cout << "result = " << result << "\n";
-  std::cout << "time = " << ms << " ms\n";
+  end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
+
+  cout << "result = " << result << "\n";
+  cout << "time = " << timeElapsed << " ms\n";
   
   return 0;
 }

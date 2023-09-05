@@ -9,10 +9,12 @@
 // purpose.
 // =================================================================
 #include <iostream>
+#include <chrono>
 #include "header.h"
 #include "quick.h"
 
 using namespace std;
+using namespace std::chrono;
 
 void fillArray(int *A, int size) {
   for (int i = 0; i < size - 1; i++) {
@@ -24,18 +26,28 @@ void fillArray(int *A, int size) {
 int main(int argc, char* argv[]) {
   int *arr;
   int size = 1000;
-  Chronometer c;
-  double ms;
+
+  // These variables are used to keep track of the execution time.
+	high_resolution_clock::time_point start, end;
+	double timeElapsed;
 
   for (int i = 0; i < 5; i++) {
-    std::cout << "Starting size = " << size <<  "...";
+    cout << "Starting size = " << size <<  "...";
     arr = new int[size];
     fillArray(arr, size);
-    c.start();
+    
+    start = high_resolution_clock::now();
+    
     quickSort(arr, size);
-    ms = c.stop();
-    std::cout<< " time = " << ms << " ms\n";
+    
+    end = high_resolution_clock::now();
+		timeElapsed += 
+			duration<double, std::milli>(end - start).count();
+
+    cout << "time = " << timeElapsed << " ms\n";
+    
     delete [] arr;
+    
     size *= 10;
   }
   return 0;

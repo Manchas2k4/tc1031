@@ -31,41 +31,6 @@ typedef unsigned long ulong;
 typedef long long int lli;
 
 // =================================================================
-// This class allows us to calculate the time that elapses between
-// one execution line and another.
-// =================================================================
-class Chronometer {
-private:
-  timeval startTime;
-  bool 	started;
-
-public:
-  Chronometer() :started(false) {}
-
-  void start(){
-    started = true;
-    gettimeofday(&startTime, NULL);
-  }
-
-  double stop(){
-    timeval endTime;
-    long seconds, useconds;
-    double duration = -1;
-
-    if (started) {
-      gettimeofday(&endTime, NULL);
-
-      seconds  = endTime.tv_sec  - startTime.tv_sec;
-      useconds = endTime.tv_usec - startTime.tv_usec;
-
-      duration = (seconds * 1000.0) + (useconds / 1000.0);
-      started = false;
-    }
-    return duration;
-  }
-};
-
-// =================================================================
 // Swap the content of two localities (i, j) in array A.
 //
 // @param A, an array of T elements.
