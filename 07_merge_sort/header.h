@@ -16,14 +16,10 @@
 #define HEADER_H
 
 #include <iostream>
-#include <sstream>
-#include <ctime>
-#include <cstdio>
-#include <cstdlib>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <string>
+#include <iomanip>
 #include <vector>
+#include <sstream>
+#include <string>
 
 typedef unsigned char uchar;
 typedef unsigned int uint;

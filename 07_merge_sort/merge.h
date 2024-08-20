@@ -14,6 +14,7 @@
 
 #include "header.h"
 #include <vector>
+#include <cstring>
 
 // =================================================================
 // MERGE SORT - ARRAY VERSION
@@ -81,7 +82,7 @@ void merge(T *A, T *B, int low, int mid, int high) {
 // =================================================================
 template<class T>
 void split(T *A, T *B, int low, int high) {
-	int  mid, size, i, j;
+	int  mid, amount;
 
 	if (high - low == 0) return;
 
@@ -89,7 +90,9 @@ void split(T *A, T *B, int low, int high) {
 	split(A, B, low, mid);
 	split(A, B, mid + 1, high);
 	merge(A, B,low, mid, high);
-	copyArray(A, B, low, high);
+	
+	amount = high - low + 1;
+    memcpy(A + low, B + low, sizeof(int) * amount);
 }
 
 // =================================================================
@@ -172,7 +175,7 @@ void merge(std::vector<T> &A, std::vector<T> &B, int low, int mid, int high) {
 // =================================================================
 template<class T>
 void split(std::vector<T> &A, std::vector<T> &B, int low, int high) {
-	int  mid, size, i, j;
+	int  mid;
 
 	if (high - low == 0) return;
 
@@ -180,7 +183,8 @@ void split(std::vector<T> &A, std::vector<T> &B, int low, int high) {
 	split(A, B, low, mid);
 	split(A, B, mid + 1, high);
 	merge(A, B,low, mid, high);
-	copyArray(A, B, low, high);
+	
+	std::copy(B.begin() + low, B.begin() + high + 1, A.begin() + low);
 }
 
 // =================================================================
