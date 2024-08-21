@@ -54,57 +54,62 @@ int main(int argc, char* argv[]) {
 	high_resolution_clock::time_point start, end;
 	double timeElapsed;
 
+	timeElapsed = 0;
 	theWorseCase(source, SIZE);
 	cout << "BUBBLE SORT\n";
 	displayArray("before", source);
 	start = high_resolution_clock::now();
 	bubbleSort(source, SIZE);
 	end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed = 
 			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
+	timeElapsed = 0;
 	theWorseCase(source, SIZE);
 	cout << "\n\nSELECTION SORT\n";
 	displayArray("before", source);
 	start = high_resolution_clock::now();
 	selectionSort(source, SIZE);
 	end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed = 
 			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
+	timeElapsed = 0;
 	theWorseCase(source, SIZE);
 	cout << "\n\nINSERTION SORT\n";
 	displayArray("before", source);
 	start = high_resolution_clock::now();
 	insertionSort(source, SIZE);
 	end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed = 
 			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
+	timeElapsed = 0;
 	theWorseCase(source, SIZE);
 	cout << "\n\nMERGE SORT\n";
 	displayArray("before", source);
 	start = high_resolution_clock::now();
 	mergeSort(source, SIZE);
 	end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed = 
 			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;
 
+	timeElapsed = 0;
 	theWorseCase(source, SIZE);
 	cout << "\n\nQUICK SORT\n";
 	displayArray("before", source);
 	start = high_resolution_clock::now();
 	quickSort(source, SIZE);
 	end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed = 
 			duration<double, std::milli>(end - start).count();
 	displayArray("after", source);
 	cout << "avg time = " << setprecision(15) << timeElapsed << " ms" << endl;

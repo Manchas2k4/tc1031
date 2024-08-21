@@ -14,25 +14,11 @@
 
 #include "header.h"
 #include <vector>
+#include <cstring>
 
 // =================================================================
 // MERGE SORT - ARRAY VERSION
 // =================================================================
-
-// =================================================================
-// Copy the range [low, high] from array B to array A.
-//
-// @param A, the destination array.
-// @param B, the source array.
-// @param low, lower index.
-// @param high, higher index.
-// =================================================================
-template <class T>
-void copyArray(T *A, T *B, int low, int high) {
-	for (int i = low; i <= high; i++) {
-		A[i] = B[i];
-	}
-}
 
 // =================================================================
 // Merge both halves of A, using B array as temporary storage.
@@ -81,7 +67,7 @@ void merge(T *A, T *B, int low, int mid, int high) {
 // =================================================================
 template<class T>
 void split(T *A, T *B, int low, int high) {
-	int  mid, size, i, j;
+	int  mid, amount;
 
 	if (high - low == 0) return;
 
@@ -89,7 +75,9 @@ void split(T *A, T *B, int low, int high) {
 	split(A, B, low, mid);
 	split(A, B, mid + 1, high);
 	merge(A, B,low, mid, high);
-	copyArray(A, B, low, high);
+	
+	amount = high - low + 1;
+    memcpy(A + low, B + low, sizeof(int) * amount);
 }
 
 // =================================================================
@@ -110,21 +98,6 @@ void mergeSort(T *A, int size) {
 // =================================================================
 
 // =================================================================
-// Copy the range [low, high] from array B to array A.
-//
-// @param A, the destination vector.
-// @param B, the source vector.
-// @param low, lower index.
-// @param high, higher index.
-// =================================================================
-template <class T>
-void copyArray(std::vector<T> &A, std::vector<T> &B, int low, int high) {
-	for (int i = low; i <= high; i++) {
-		A[i] = B[i];
-	}
-}
-
-// =================================================================
 // Merge both halves of A, using B array as temporary storage.
 //
 // @param A, the source vector.
@@ -141,11 +114,9 @@ void merge(std::vector<T> &A, std::vector<T> &B, int low, int mid, int high) {
 	k = low;
 	while(i <= mid && j <= high){
 		if(A[i] < A[j]){
-			B[k] = A[i];
-			i++;
+			B[k] = A[i++];
 		} else {
-			B[k] = A[j];
-			j++;
+			B[k] = A[j++];
 		}
 		k++;
 	}
@@ -172,7 +143,7 @@ void merge(std::vector<T> &A, std::vector<T> &B, int low, int mid, int high) {
 // =================================================================
 template<class T>
 void split(std::vector<T> &A, std::vector<T> &B, int low, int high) {
-	int  mid, size, i, j;
+	int  mid;
 
 	if (high - low == 0) return;
 
@@ -180,7 +151,8 @@ void split(std::vector<T> &A, std::vector<T> &B, int low, int high) {
 	split(A, B, low, mid);
 	split(A, B, mid + 1, high);
 	merge(A, B,low, mid, high);
-	copyArray(A, B, low, high);
+	
+	std::copy(B.begin() + low, B.begin() + high + 1, A.begin() + low);
 }
 
 // =================================================================
