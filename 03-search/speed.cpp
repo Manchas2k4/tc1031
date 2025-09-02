@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
   start = high_resolution_clock::now();
   result = sequentialSearch(v, 0);
   end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed += 
 			duration<double, std::milli>(end - start).count();
 
   cout << "result = " << result << "\n";
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
   start = high_resolution_clock::now();
   result = binarySearch(v, 0);
   end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed += 
 			duration<double, std::milli>(end - start).count();
 
   cout << "result = " << result << "\n";
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
   start = high_resolution_clock::now();
   result = binaryRSearch(v, 0, v.size(), 0);
   end = high_resolution_clock::now();
-		timeElapsed += 
+	timeElapsed += 
 			duration<double, std::milli>(end - start).count();
 
   cout << "result = " << result << "\n";
