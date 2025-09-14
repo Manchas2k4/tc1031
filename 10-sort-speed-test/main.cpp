@@ -25,7 +25,7 @@ using namespace std::chrono;
 
 const int DISPLAY = 100;
 const int TOP_VALUE = 10000;
-const int SIZE = 75000;
+const int SIZE = 100000;
 
 void theWorseCase(int *array, int size) {
 	int i;

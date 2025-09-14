@@ -16,7 +16,7 @@
 #include <vector>
 
 // =================================================================
-// Performs the insertion sort algorith on an array.
+// Performs the shell sort algorith on an array.
 //
 // @param A, an array of T elements.
 // @param size, the number of elements in the array.
@@ -35,7 +35,7 @@ void shellSort(T *arr, int size) {
 }
 
 // =================================================================
-// Performs the insertion sort algorith on a vector.
+// Performs the shell sort algorith on a vector.
 //
 // @param A, a vector of T elements.
 // =================================================================

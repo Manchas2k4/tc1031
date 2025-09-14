@@ -28,6 +28,14 @@ bool compare2(const Point &left, const Point &right) {
 int main(int argc, char* argv[]) {
     vector<Point> v(20);
 
+    /*
+    bool compare(int a, int b) {
+        return a > b;
+    }
+    int arr[20];
+    sort(arr, arr, arr + 20, compare);  //DESCENDENTE
+    */
+
     srand(1234);
     for (int i = 0; i < v.size(); i++) {
         v[i] = make_pair(rand() % 20, rand() % 20);
