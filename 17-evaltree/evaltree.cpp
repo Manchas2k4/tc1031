@@ -37,6 +37,8 @@ private:
 	void preOrder(stringstream&) const;
 	void postOrder(stringstream&) const;
 
+	int depth() const;
+
 	void removeChilds();
 
 	friend class EvalTree;
@@ -142,6 +144,32 @@ void Node::postOrder(std::stringstream &aux) const {
 }
 
 // =================================================================
+// Calculates the depth of a node. Depth is the number of nodes that 
+//	must be traversed to reach the deepest leaf.
+//
+// returns the depth of this node.
+// =================================================================
+int Node::depth() const {
+	int le, ri;
+
+	if (!left && !right) {
+		return 0;
+	}
+
+	le = 0;
+	if (left) {
+		le = left->depth();
+	}
+
+	ri = 0;
+	if (right) {
+		ri = right->depth();
+	}
+
+	return ((le > ri)? le : ri) + 1;
+}
+
+// =================================================================
 // Removes, recursively, the childs of a parent node.
 //
 // =================================================================
@@ -177,6 +205,9 @@ public:
 	string postOrder() const;
 	string preOrder() const;
 	string perLevel() const;
+
+	int depth() const;
+	int levels() const;
 };
 
 // =================================================================
@@ -318,6 +349,25 @@ string EvalTree::perLevel() const {
 	return aux.str();
 }
 
+// =================================================================
+// Calculates the root depth of the tree. Depth is the number of 
+// nodes that must be traversed to reach the deepest leaf.
+//
+// returns the depth of the root.
+// =================================================================
+int EvalTree::depth() const {
+	return (root)? root->depth() : 0;
+}
+
+// =================================================================
+// Calculate the number of levels the tree has.
+//
+// returns the number of levels.
+// =================================================================
+int EvalTree::levels() const {
+	return ((root)? root->depth() : 0) + 1;
+}
+
 int main(int argc, char* argv[]) {
 	EvalTree tree("( ( ( 3 * 2 ) + ( 8 / 2 ) ) + 7 )");
 
@@ -325,6 +375,9 @@ int main(int argc, char* argv[]) {
 	cout << "Pre Order = " << tree.preOrder() << "\n";
 	cout << "Post Order = " << tree.postOrder() << "\n";
 	cout << "Per Level = " << tree.perLevel() << "\n";
-	cout << "Eval = " << tree.eval() << "\n";
+	cout << "In Order = " << tree.inOrder() << "\n";
+	cout << "Root depth = " << tree.depth() << "\n";
+	cout << "Levels = " << tree.levels() << "\n";
+ 	cout << "Eval = " << tree.eval() << "\n";
 	return 0;
 }
