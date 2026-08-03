@@ -1,14 +1,14 @@
 // =================================================================
 //
-// File: speed_test.cpp
+// File: speed.cpp
 // Author: Pedro Perez
-// Description: This file implements various tests on the
+// Description: This file implements various speed tests on the
 //				implemented code.
 //
 // Copyright (c) 2020 by Tecnologico de Monterrey.
 // All Rights Reserved. May be reproduced for any non-commercial
 // purpose.
-// =================================================================h"
+// =================================================================
 #include <chrono>
 #include <vector>
 #include "header.h"
@@ -19,48 +19,57 @@ const int SIZE = 1000000000;
 using namespace std;
 using namespace std::chrono;
 
+/**
+ * @brief Main function to test search algorithms and measure execution time.
+ * 
+ * This program initializes a vector of integers, performs three types of 
+ * search algorithms (sequential search, iterative binary search, and 
+ * recursive binary search), and measures their execution time in milliseconds.
+ * 
+ * @param argc Number of command-line arguments (not used in this implementation).
+ * @param argv Array of command-line arguments (not used in this implementation).
+ * @return int Returns 0 to indicate successful program execution.
+ */
 int main(int argc, char* argv[]) {
-  std::vector<int> v(SIZE);
-  int result;
+    // Initialize a vector of integers with SIZE elements
+    std::vector<int> v(SIZE);
+    int result;
 
-  // These variables are used to keep track of the execution time.
-	high_resolution_clock::time_point start, end;
-	double timeElapsed;
+    // Variables to measure execution time
+    high_resolution_clock::time_point start, end;
+    double timeElapsed;
 
-  for (int i = 0; i < SIZE; i++) {
-    v[i] = (i + 1);
-  }
+    // Fill the vector with integers from 1 to SIZE
+    for (int i = 0; i < SIZE; i++) {
+        v[i] = (i + 1);
+    }
 
-  cout << "Starting sequential\n";
-  
-  start = high_resolution_clock::now();
-  result = sequentialSearch(v, 0);
-  end = high_resolution_clock::now();
-	timeElapsed += 
-			duration<double, std::milli>(end - start).count();
+    // Perform sequential search
+    cout << "Starting sequential\n";
+    start = high_resolution_clock::now();
+    result = sequentialSearch(v, 0);
+    end = high_resolution_clock::now();
+    timeElapsed = duration<double, std::milli>(end - start).count();
+    cout << "result = " << result << "\n";
+    cout << "time = " << timeElapsed << " ms\n";
 
-  cout << "result = " << result << "\n";
-  cout << "time = " << timeElapsed << " ms\n";
+    // Perform iterative binary search
+    std::cout << "Starting iterative binary search\n";
+    start = high_resolution_clock::now();
+    result = iterativeBinarySearch(v, 0);
+    end = high_resolution_clock::now();
+    timeElapsed = duration<double, std::milli>(end - start).count();
+    cout << "result = " << result << "\n";
+    cout << "time = " << timeElapsed << " ms\n";
 
-  std::cout << "Starting binary\n";
-  start = high_resolution_clock::now();
-  result = binarySearch(v, 0);
-  end = high_resolution_clock::now();
-	timeElapsed += 
-			duration<double, std::milli>(end - start).count();
+    // Perform recursive binary search
+    cout << "Starting recursive binary search\n";
+    start = high_resolution_clock::now();
+    result = recursiveBinarySearch(v, 0, v.size(), 0);
+    end = high_resolution_clock::now();
+    timeElapsed =  duration<double, std::milli>(end - start).count();
+    cout << "result = " << result << "\n";
+    cout << "time = " << timeElapsed << " ms\n";
 
-  cout << "result = " << result << "\n";
-  cout << "time = " << timeElapsed << " ms\n";
-
-  cout << "Starting binaryR\n";
-  start = high_resolution_clock::now();
-  result = binaryRSearch(v, 0, v.size(), 0);
-  end = high_resolution_clock::now();
-	timeElapsed += 
-			duration<double, std::milli>(end - start).count();
-
-  cout << "result = " << result << "\n";
-  cout << "time = " << timeElapsed << " ms\n";
-  
-  return 0;
+    return 0;
 }

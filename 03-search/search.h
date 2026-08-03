@@ -14,78 +14,92 @@
 
 #include "header.h"
 #include <vector>
+#include <stdexcept> // Para manejo de excepciones
 
-// =================================================================
-// Performs a sequential search for an element within a vector.
-//
-// @param A, a vector of T elements.
-// @param key, the element to search.
-// @return the index of the searched element, -1 in case the element
-//		   is not found in the vector.
-// =================================================================
+/**
+ * @brief Performs a sequential search on a vector.
+ * 
+ * @tparam T The type of elements in the vector.
+ * @param v The vector to search in.
+ * @param key The key to search for.
+ * @return The index of the key in the vector, or -1 if the key is not found.
+ * @throw std::invalid_argument If the vector is empty.
+ */
 template <class T>
 int sequentialSearch(const std::vector<T> &v, T key) {
-	for (int i = 0; i < v.size(); i++) {
-		if (v[i] == key) {
-			return i;
-		}
-	}
-	return -1;
+    if (v.empty()) {
+        throw std::invalid_argument("sequentialSearch: The vector is empty.");
+    }
+
+    for (int i = 0; i < v.size(); i++) {
+        if (v[i] == key) {
+            return i;
+        }
+    }
+    return -1;
 }
 
-// =================================================================
-// Performs a binary search for an element within a vector
-//
-// @param A, a vector of T elements.
-// @param key, the element to search.
-// @return the index of the searched element, -1 in case the element
-//		   is not found in the vector.
-// =================================================================
+/**
+ * @brief Performs an iterative binary search on a sorted vector.
+ * 
+ * @tparam T The type of elements in the vector.
+ * @param v The sorted vector to search in.
+ * @param key The key to search for.
+ * @return The index of the key in the vector, or -1 if the key is not found.
+ * @throw std::invalid_argument If the vector is empty.
+ */
 template <class T>
-int binarySearch(const std::vector<T> &v, T key) {
-	int low, high, mid;
+int iterativeBinarySearch(const std::vector<T> &v, T key) {
+    if (v.empty()) {
+        throw std::invalid_argument("iterativeBinarySearch: The vector is empty.");
+    }
 
-	low = 0;
-	high = v.size() - 1;
-	while (low <= high) {
-		mid = low + ((high - low) / 2); // mid = (high + low) / 2;
-		if (key == v[mid]) {
-			return mid;
-		} else if (key < v[mid]) {
-			high = mid - 1;
-		} else {
-			low = mid + 1;
-		}
-	}
-	return -1;
+    int low = 0;
+    int high = v.size() - 1;
+
+    while (low <= high) {
+        int mid = low + ((high - low) / 2); // Prevents overflow compared to (high + low) / 2
+        if (key == v[mid]) {
+            return mid;
+        } else if (key < v[mid]) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return -1;
 }
 
-// =================================================================
-// Performs a binary search for an element within a vector
-//
-// @param A, a vector of T elements.
-// @param low, lower limit of the search.
-// @param high, upper limit of the search.
-// @param key, the element to search.
-// @return the index of the searched element, -1 in case the element
-//		   is not found in the vector.
-// =================================================================
+/**
+ * @brief Performs a recursive binary search on a sorted vector.
+ * 
+ * @tparam T The type of elements in the vector.
+ * @param v The sorted vector to search in.
+ * @param low The lower index of the range to search in.
+ * @param high The upper index of the range to search in.
+ * @param key The key to search for.
+ * @return The index of the key in the vector, or -1 if the key is not found.
+ * @throw std::invalid_argument If the vector is empty.
+ */
 template <class T>
-int binaryRSearch(const std::vector<T> &v, int low, int high, T key) {
-	int mid;
+int recursiveBinarySearch(const std::vector<T> &v, int low, int high, T key) {
+    if (v.empty()) {
+        throw std::invalid_argument("recursiveBinarySearch: The vector is empty.");
+    }
 
-	if (low > high) {
-		return -1;
-	} else {
-		mid = low + ((high - low) / 2); // mid = (high + low) / 2;
-		if (key == v[mid]) {
-			return mid;
-		} else if (key < v[mid]) {
-			return binaryRSearch(v, low, mid - 1, key);
-		} else {
-			return binaryRSearch(v, mid + 1, high, key);
-		}
-	}
+    if (low > high) {
+        return -1;
+    }
+
+    int mid = low + ((high - low) / 2); // Prevents overflow compared to (high + low) / 2
+
+    if (key == v[mid]) {
+        return mid;
+    } else if (key < v[mid]) {
+        return recursiveBinarySearch(v, low, mid - 1, key);
+    } else {
+        return recursiveBinarySearch(v, mid + 1, high, key);
+    }
 }
 
 #endif /* SEARCH_H */
