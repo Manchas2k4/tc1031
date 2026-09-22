@@ -1,7 +1,7 @@
 // =================================================================
 //
 // File: list.h
-// Author:
+// Author: Pedro Perez
 // Description: This file contains the implementation of a TDA List.
 //              This code was developed solely for educational 
 //              purposes.
@@ -31,6 +31,7 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include <utility>
 
 /**
  * @brief Alias used for unsigned integer values.
@@ -85,7 +86,7 @@ Node<T>::Node(T val) : value(val), next(nullptr) {
 
 
 template <class T>
-Node<T>::Node(T val, Node* nxt) : value(val), next(nxt) {
+Node<T>::Node(T val, Node<T>* nxt) : value(val), next(nxt) {
 }
 
 
@@ -304,30 +305,13 @@ bool List<T>::empty() const {
 
 template <class T>
 List<T>& List<T>::operator=(const List<T> &other) {
-	if (this == &other) {
-		return *this;
-	}
+	if (this != &other) {
+        List<T> temp(other);
 
-	clear(); 
-
-	if (other.empty()) {
-		return *this;
-	}
-
-	Node<T> *p = other.head;
-
-	Node<T> *q;
-	head = q = new Node<T>(p->value);
-	p = p->next;
-
-	while (p != nullptr) {
-		q->next = new Node<T>(p->value);
-		q = q->next;
-
-		p = p->next;
-	}
-
-	size = other.size;
+        std::swap(this->head, temp.head);
+        std::swap(this->size, temp.size);
+    }
+    
 	return *this;
 }
 
@@ -386,7 +370,7 @@ std::string List<T>::toString() const {
 template <class T>
 const T& List<T>::front() const {
 	if (empty()) {
-		throw std::out_of_range();
+		throw std::out_of_range("No Such Element");
 	}
 
 	return head->value;
@@ -409,10 +393,8 @@ const T& List<T>::last() const {
 
 template <class T>
 const T& List<T>::get(uint index) const {
-	T aux;
-
 	// TO DO
-	return aux;
+	throw std::logic_error("Not implemented");
 }
 
 template <class T>
@@ -453,7 +435,6 @@ void List<T>::insert_at(const T& val, uint index) {
 
 template <class T>
 void List<T>::pop_front() {
-	T val;
 	Node<T> *p;
 
 	if (empty()) {
@@ -461,8 +442,7 @@ void List<T>::pop_front() {
 	}
 
 	p = head;
-	val = p->value;
-
+	
 	head = p->next;
 	p->next = nullptr;
 	delete p;
@@ -473,8 +453,7 @@ void List<T>::pop_front() {
 template <class T>
 void List<T>::pop_back() {
 	Node<T> *p, *q;
-	T val;
-
+	
 	if (empty()) {
 		throw std::out_of_range("No Such Element");
 	}
@@ -489,8 +468,6 @@ void List<T>::pop_back() {
 		q = p;
 		p = p->next;
 	}
-
-	val = p->value;
 
 	q->next = p->next;
 	p->next = nullptr;
