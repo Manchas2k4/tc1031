@@ -27,21 +27,21 @@ TEST_CASE( "Testing vector implementation", "[StackVector]" ) {
 	}
 
 	SECTION( "2: Testing overflow." ) {
-		s2.push(3);
 		s2.push(4);
-		REQUIRE_THROWS_AS(s2.push(5), Overflow);
+		s2.push(5);
+		REQUIRE_THROWS_AS(s2.push(5), std::overflow_error);
 	}
 
 	SECTION( "3: Checking the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+		REQUIRE_THROWS_AS(s1.pop(), std::out_of_range);
 
-		int x = s2.top();
+		int x = s2.top(); s2.pop();
 		REQUIRE(x == 2);
-		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1, 2]") == 0);
+		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1]") == 0);
 	}
 
 	SECTION( "4: Popping out the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+		REQUIRE_THROWS_AS(s1.pop(), std::out_of_range);
 
 		s2.pop();
 		REQUIRE(strcmp(s2.toString().c_str(), "[0, 1]") == 0);
@@ -72,27 +72,26 @@ TEST_CASE( "Testing list implementation", "[StackList]" ) {
 	}
 
 	SECTION( "2: Checking the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+		REQUIRE_THROWS_AS(s1.pop(), std::out_of_range);
 
-		int x = s2.top();
+		int x = s2.top(); s2.pop();
 		REQUIRE(x == 2);
-		std::cout << s2.toString() << "\n";
-		REQUIRE(strcmp(s2.toString().c_str(), "[2, 1, 0]") == 0);
+		REQUIRE(strcmp(s2.toString().c_str(), "[1, 0]") == 0);
 	}
 
-	SECTION( "4: Popping out the top" ) {
-		REQUIRE_THROWS_AS(s1.pop(), NoSuchElement);
+	SECTION( "3: Popping out the top" ) {
+		REQUIRE_THROWS_AS(s1.pop(), std::out_of_range);
 
 		s2.pop();
 		REQUIRE(strcmp(s2.toString().c_str(), "[1, 0]") == 0);
 	}
 
-	SECTION( "5: Testing if the stack is empty." ) {
+	SECTION( "4: Testing if the stack is empty." ) {
 		REQUIRE(s1.empty() == true);
 		REQUIRE(s2.empty() == false);
 	}
 
-	SECTION( "6: Testing to clear a stack." ) {
+	SECTION( "5: Testing to clear a stack." ) {
 		s2.clear();
 		REQUIRE(strcmp(s2.toString().c_str(), "[]") == 0);
 	}
