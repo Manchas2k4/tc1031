@@ -29,11 +29,11 @@ TEST_CASE( "Testing vector implementation", "[QueueVector]" ) {
 	SECTION( "2: Testing overflow." ) {
 		q2.enqueue(3);
 		q2.enqueue(4);
-		REQUIRE_THROWS_AS(q2.enqueue(5), Overflow);
+		REQUIRE_THROWS_AS(q2.enqueue(5), std::overflow_error);
 	}
 
 	SECTION( "3: Checking the front" ) {
-		REQUIRE_THROWS_AS(q1.front(), NoSuchElement);
+		REQUIRE_THROWS_AS(q1.front(), std::underflow_error);
 
 		int x = q2.front();
 		REQUIRE(x == 0);
@@ -41,7 +41,7 @@ TEST_CASE( "Testing vector implementation", "[QueueVector]" ) {
 	}
 
 	SECTION( "4: Removing the front" ) {
-		REQUIRE_THROWS_AS(q1.dequeue(), NoSuchElement);
+		REQUIRE_THROWS_AS(q1.dequeue(), std::underflow_error);
 
 		q2.dequeue();
 		REQUIRE(strcmp(q2.toString().c_str(), "[1, 2]") == 0);
@@ -72,7 +72,7 @@ TEST_CASE( "Testing list implementation", "[QueueList]" ) {
 	}
 
 	SECTION( "2: Checking the front" ) {
-		REQUIRE_THROWS_AS(q1.front(), NoSuchElement);
+		REQUIRE_THROWS_AS(q1.front(), std::underflow_error);
 
 		int x = q2.front();
 		REQUIRE(x == 0);
@@ -80,7 +80,7 @@ TEST_CASE( "Testing list implementation", "[QueueList]" ) {
 	}
 
 	SECTION( "3: Removing the front" ) {
-		REQUIRE_THROWS_AS(q1.dequeue(), NoSuchElement);
+		REQUIRE_THROWS_AS(q1.dequeue(), std::underflow_error);
 
 		q2.dequeue();
 		REQUIRE(strcmp(q2.toString().c_str(), "[1, 2]") == 0);
